@@ -3,13 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --port=3000",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
+    "vue-clickaway": "^2.2.2",
+    "vue-cookies": "^1.5.13",
+    "vue-material": "^1.0.0-beta-10.2",
     "vue-router": "^3.0.3"
   },
   "devDependencies": {
@@ -33,7 +37,12 @@
       "plugin:vue/essential",
       "@vue/prettier"
     ],
-    "rules": {},
+    "rules": {
+      "indent": [
+        "error",
+        "tab"
+      ]
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }
