@@ -6,7 +6,6 @@ import cookies from "vue-cookies";
 
 import authMdw from "./middlewares/auth-middleware";
 
-import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import DashboardLayout from "./views/layouts/DashboardLayout.vue";
 import Dashboard from "./views/Dashboard.vue";
