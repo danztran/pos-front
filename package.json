@@ -1,5 +1,5 @@
 {
-	"name": "pos-branch",
+	"name": "pos-branch-fe",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -39,6 +39,7 @@
 			"plugin:vue/recommended"
 		],
 		"rules": {
+			"indent": ["error", "tab"],
 			"vue/html-indent": ["error", "tab"],
 			"vue/script-indent": ["error", "tab"],
 			"vue/html-closing-bracket-newline": ["error"],
@@ -60,5 +61,17 @@
 		"> 1%",
 		"last 2 versions",
 		"not ie <= 8"
-	]
+	],
+	"description": "## Project setup ``` npm install ```",
+	"main": "babel.config.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/danztran/pos-branch-fe.git"
+	},
+	"author": "Trần Bảo Nguyên",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/danztran/pos-branch-fe/issues"
+	},
+	"homepage": "https://github.com/danztran/pos-branch-fe#readme"
 }

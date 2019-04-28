@@ -28,6 +28,6 @@ Vue.component("router-link", Vue.options.components.RouterLink);
 Vue.component("router-view", Vue.options.components.RouterView);
 
 new Vue({
-  router,
-  render: h => h(App)
+	router,
+	render: h => h(App)
 }).$mount("#app");
