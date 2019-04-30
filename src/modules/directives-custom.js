@@ -2,7 +2,11 @@ export default {
 	visible: {
 		bind(el, binding) {
 			el.classList.add("fade");
-			el.classList.add("fadeOut");
+			if (binding.modifiers) {
+				if (binding.modifiers.hid) {
+					el.classList.add("fadeOut");
+				}
+			}
 		},
 		update(el, binding, vnode) {
 			if (binding.value) {

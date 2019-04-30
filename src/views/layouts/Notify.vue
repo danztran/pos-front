@@ -5,13 +5,11 @@
 			:md-duration="Infinity"
 			:md-active.sync="show"
 			md-persistent
-			@click="show = false"
-		>
+			@click="show = false">
 			<span v-text="message" />
 			<md-button
 				class="md-primary"
-				@click="show = false"
-			>
+				@click="show = false">
 				&times;
 			</md-button>
 		</md-snackbar>

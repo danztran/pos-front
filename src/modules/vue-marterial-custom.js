@@ -14,7 +14,8 @@ import {
 	MdCheckbox,
 	MdChips,
 	MdSpeedDial,
-	MdDialog
+	MdDialog,
+	MdDatepicker
 } from "vue-material/dist/components";
 
 export default {
@@ -35,5 +36,6 @@ export default {
 		Vue.use(MdChips);
 		Vue.use(MdSpeedDial);
 		Vue.use(MdDialog);
+		Vue.use(MdDatepicker);
 	}
 };

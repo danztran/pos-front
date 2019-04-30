@@ -2,40 +2,18 @@
 	<div>
 		<form novalidate class="" @submit.prevent="handleSubmit">
 			<md-card>
-				<md-progress-bar v-show="form.loading" md-mode="indeterminate" />
+				<md-progress-bar v-visible.hid="loading" md-mode="indeterminate" />
 				<md-card-content class="md-toolbar">
-					<h2 v-if="formAdd">
+					<h2 v-if="formAdd" md-title>
 						ADD NEW CUSTOMER
 					</h2>
-					<h2 v-if="formEdit">
+					<h2 v-if="formEdit" md-title>
 						EDIT CUSTOMER
 					</h2>
 				</md-card-content>
 				<md-card-content>
-					<md-field v-for="field in [form.fullname]" :key="field.name" :class="getFieldClass(field.name)">
-						<label :for="field.name">{{ field.label }}</label>
-						<md-input
-							:id="field.name"
-							v-model="field.value"
-							:type="field.type"
-							:name="field.name"
-							:disabled="form.loading"
-							@keydown="clearFieldMessage(field.name)"
-						/>
-						<span class="md-error">{{ field.message }}</span>
-					</md-field>
-					<md-field v-for="field in [form.phone]" :key="field.name" :class="getFieldClass(field.name)">
-						<label :for="field.name">{{ field.label }}</label>
-						<md-input
-							:id="field.name"
-							v-model="field.value"
-							:type="field.type"
-							:name="field.name"
-							:disabled="form.loading"
-							@keydown="clearFieldMessage(field.name)"
-						/>
-						<span class="md-error">{{ field.message }}</span>
-					</md-field>
+					<field-input :field="form.fullname" :disabled="loading" />
+					<field-input :field="form.phone" :disabled="loading" />
 					<md-content>
 						<span class="md-body-1">Point: </span>
 						<md-chip md-static>
@@ -44,13 +22,25 @@
 					</md-content>
 				</md-card-content>
 				<md-card-actions>
-					<md-button type="button" class="md-accent" @click="resetForm">
+					<md-button
+						type="button"
+						class="md-accent"
+						:disabled="loading"
+						@click="resetForm">
 						Reset
 					</md-button>
-					<md-button v-if="formAdd" type="submit" class="md-primary">
+					<md-button
+						v-if="formAdd"
+						type="submit"
+						class="md-primary"
+						:disabled="loading">
 						Add
 					</md-button>
-					<md-button v-else type="submit" class="md-primary">
+					<md-button
+						v-else
+						type="submit"
+						class="md-primary"
+						:disabled="loading">
 						Edit
 					</md-button>
 				</md-card-actions>
@@ -60,8 +50,12 @@
 </template>
 <script>
 import HandleMessage from "@/components/HandleMessage";
+import FieldInput from "@/components/FieldInput";
 export default {
 	name: "CustomerForm",
+	components: {
+		"field-input": FieldInput
+	},
 	mixins: [HandleMessage],
 	props: {
 		customer: {
@@ -73,9 +67,9 @@ export default {
 	},
 	data() {
 		return {
+			loading: false,
 			formAdd: true,
 			form: {
-				loading: false,
 				_id: "",
 				fullname: {
 					label: "Full name",
@@ -101,37 +95,18 @@ export default {
 		}
 	},
 	watch: {
-		customer: function(newVal, oldVal) {
+		customer(newVal, oldVal) {
 			// watch it
 			this.fillForm(newVal);
 		}
 	},
 	methods: {
 		resetForm() {
-			function clear(...inp) {
-				for (let i of inp) {
-					i.value = "";
-					i.message = "";
-				}
-			}
-			clear(this.form.fullname, this.form.phone);
 			this.form._id = "";
+			this.form.fullname.value = "";
+			this.form.phone.value = "";
 			this.form.point = 0;
 			this.formAdd = true;
-		},
-		clearFieldMessage(field) {
-			let key = this.form[field];
-			if (key) {
-				key.message = "";
-			}
-		},
-		getFieldClass(field) {
-			let key = this.form[field];
-			let hasMsg = false;
-			if (key) {
-				hasMsg = Boolean(key.message);
-			}
-			return hasMsg ? "md-invalid" : "";
 		},
 		fillForm(customer) {
 			this.form.fullname.value = customer.fullname;
@@ -152,7 +127,7 @@ export default {
 		},
 		handleSubmit() {
 			this.$root.$emit("hideMsg");
-			this.form.loading = true;
+			this.loading = true;
 			if (this.formAdd) {
 				this.add();
 			} else {
@@ -164,16 +139,16 @@ export default {
 				.post(this.$api.customer.add, this.getFormData())
 				.then(res => {
 					let { message, customer } = res.data;
-					this.handleMessage(message);
 					if (customer) {
 						this.$root.$emit("customerAdded", customer);
 					}
+					this.handleMessage(message);
 				})
 				.catch(err => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
-					this.form.loading = false;
+					this.loading = false;
 				});
 		},
 		edit() {
@@ -181,16 +156,16 @@ export default {
 				.post(this.$api.customer.edit, this.getFormData())
 				.then(res => {
 					let { message, customer } = res.data;
-					this.handleMessage(message);
 					if (customer) {
 						this.$root.$emit("customerEdited", customer);
 					}
+					this.handleMessage(message);
 				})
 				.catch(err => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
-					this.form.loading = false;
+					this.loading = false;
 				});
 		}
 	}

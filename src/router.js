@@ -11,6 +11,7 @@ import DashboardLayout from "./views/layouts/DashboardLayout.vue";
 import Dashboard from "./views/Dashboard.vue";
 import UserManagement from "./views/UserManagement.vue";
 import CustomerManagement from "./views/CustomerManagement.vue";
+import ProductManagement from "./views/ProductManagement.vue";
 
 Vue.use(Router);
 
@@ -18,6 +19,30 @@ const router = new Router({
 	mode: "history",
 	base: process.env.BASE_URL,
 	routes: [
+		{
+			path: "/login",
+			name: "login",
+			component: Login,
+			meta: {
+				title: "Login",
+				middleware: function({ next, router }) {
+					if (authMdw.isUser()) {
+						axios.get("/auth/logout").then(res => {
+							cookies.remove("user");
+						});
+					}
+					next();
+				}
+			}
+		},
+		{
+			path: "/logout",
+			name: "logout",
+			redirect: "/login",
+			meta: {
+				title: "Logout"
+			}
+		},
 		{
 			path: "/",
 			component: DashboardLayout,
@@ -49,32 +74,17 @@ const router = new Router({
 						title: "Customer Management",
 						middleware: authMdw.auth
 					}
+				},
+				{
+					path: "products",
+					name: "products",
+					component: ProductManagement,
+					meta: {
+						title: "Product Management",
+						middleware: authMdw.auth
+					}
 				}
 			]
-		},
-		{
-			path: "/login",
-			name: "login",
-			component: Login,
-			meta: {
-				title: "Login",
-				middleware: function({ next, router }) {
-					if (authMdw.isUser()) {
-						axios.get("/auth/logout").then(res => {
-							cookies.remove("user");
-						});
-					}
-					next();
-				}
-			}
-		},
-		{
-			path: "/logout",
-			name: "logout",
-			redirect: "/login",
-			meta: {
-				title: "Logout"
-			}
 		},
 		{
 			path: "/about",
@@ -129,7 +139,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from) => {
 	// Vue.nextTick( () => {
-	document.title = to.meta.title || " ";
+	document.title = (to.meta.title || " ") +  " | POS Branch";
 	// });
 });
 

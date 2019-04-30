@@ -1,13 +1,10 @@
 <template>
 	<div class="md-layout">
-		<div class="md-layout-item md-large-size-25 md-medium-size-25 md-small-size-50 md-xsmall-size-100">
-			<user-form :user="selected" />
-		</div>
-		<div class="md-layout-item md-large-size-70 md-medium-size-70 md-small-size-50 md-xsmall-size-100">
+		<div class="md-layout-item">
 			<md-card>
 				<md-progress-bar v-visible="loading" md-mode="query" />
 				<md-table
-					v-model="users"
+					v-model="products"
 					md-sort="updatedAt"
 					md-sort-order="desc"
 					md-fixed-header
@@ -16,8 +13,8 @@
 					:md-sort-fn="customSort">
 					<md-table-toolbar>
 						<div class="md-toolbar-section-start">
-							<h2 md-title>
-								LIST OF USERS
+							<h2>
+								LIST OF PRODUCTS
 							</h2>
 						</div>
 						<md-field md-clearable class="md-toolbar-section-end">
@@ -30,20 +27,26 @@
 						table-header-color="purple"
 						md-selectable="single"
 						@click="select(item)">
-						<md-table-cell md-label="Role" md-sort-by="isAdmin">
-							{{ item.isAdmin ? "Admin" : isStaff ? "Staff" : "None" }}
+						<md-table-cell md-label="Status" md-sort-by="status">
+							{{ item.status ? "On" : "Off" }}
 						</md-table-cell>
-						<md-table-cell md-label="Full name" md-sort-y="fullname">
-							{{ item.fullname }}
+						<md-table-cell md-label="Code" md-sort-by="code">
+							{{ item.code }}
 						</md-table-cell>
-						<md-table-cell md-label="Username" md-sort-by="username">
-							{{ item.username }}
+						<md-table-cell md-label="Name" md-sort-by="name">
+							{{ item.name }}
 						</md-table-cell>
-						<md-table-cell md-label="Phone" md-sort-by="phone">
-							{{ item.phone }}
+						<md-table-cell md-label="Quantity" md-sort-by="quantity">
+							{{ item.quantity }}
 						</md-table-cell>
-						<md-table-cell md-label="Join date" md-sort-by="createdAt">
-							{{ item.createdAt }}
+						<md-table-cell md-label="Origin Price" md-sort-by="origin">
+							{{ item.origin.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+						</md-table-cell>
+						<md-table-cell md-label="Price" md-sort-by="price">
+							{{ item.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+						</md-table-cell>
+						<md-table-cell md-label="Sale" md-sort-by="sale">
+							{{ item.sale + '%' }}
 						</md-table-cell>
 					</md-table-row>
 				</md-table>
@@ -63,12 +66,10 @@
 </style>
 <script>
 import HandleMessage from "@/components/HandleMessage.vue";
-import UserForm from "@/components/UserForm.vue";
 import TableBotBar from "@/components/TableBotBar";
 export default {
-	name: "UserManagement",
+	name: "ProductManagement",
 	components: {
-		"user-form": UserForm,
 		"table-botbar": TableBotBar
 	},
 	mixins: [HandleMessage],
@@ -83,27 +84,28 @@ export default {
 			},
 			timer: null,
 			loading: false,
-			count: 0,
-			users: [],
-			selected: {}
-		};
+			products: [],
+			selected: {},
+			count: 0
+		}
 	},
 	created() {
 		this.query();
 	},
 	mounted() {
-		this.$root.$on("userAdded", user => {
-			this.users.unshift(user);
+		this.$root.$on("productAdded", product => {
+			this.products.unshift(product);
 		});
-		this.$root.$on("userEdited", user => {
-			this.users = this.users.map(e =>
-				e.username == user.username ? user : e
+		this.$root.$on("productEdited", product => {
+			this.products = this.products.map(e =>
+				e.code == product.code ? product : e
 			);
 		});
 	},
 	methods: {
 		select(item) {
 			this.selected = item;
+			this.$root.$emit('productSelect', item);
 		},
 		searching() {
 			clearTimeout(this.timer);
@@ -124,16 +126,16 @@ export default {
 			}
 
 			this.$axios
-				.post(this.$api.user.query, this.queryOption)
+				.post(this.$api.product.query, this.queryOption)
 				.then(res => {
-					let { users, count } = res.data;
-					if (users) {
+					let { products, count } = res.data;
+					if (products) {
 						if (more) {
-							this.users = [...this.users, ...users];
+							this.products = [...this.products, ...products];
 						} else {
-							this.users = users;
+							this.products = products;
 						}
-						this.queryOption.index = this.users.length;
+						this.queryOption.index = this.products.length;
 					}
 					if (count) {
 						this.count = count;

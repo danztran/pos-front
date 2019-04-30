@@ -25,8 +25,7 @@
 							<md-input
 								v-model="password.value"
 								type="password"
-								@keydown="password.status = ''"
-							/>
+								@keydown="password.status = ''" />
 							<span class="md-error">{{ password.message }}</span>
 						</md-field>
 					</md-card-content>
@@ -99,9 +98,9 @@ export default {
 						}
 					}
 				})
-			// .then(() => {
-			// 	this.loading = false;
-			// });
+			.then(() => {
+				this.loading = false;
+			});
 		}
 	}
 };

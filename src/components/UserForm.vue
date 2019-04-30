@@ -2,7 +2,7 @@
 	<div>
 		<form novalidate class="" @submit.prevent="handleSubmit">
 			<md-card>
-				<md-progress-bar v-visible="form.loading" md-mode="indeterminate" />
+				<md-progress-bar v-visible.hid="loading" md-mode="indeterminate" />
 				<md-card-content class="md-toolbar">
 					<h2 v-if="formAdd">
 						ADD NEW USER
@@ -12,81 +12,34 @@
 					</h2>
 				</md-card-content>
 				<md-card-content>
-					<md-field v-for="field in [form.fullname]" :key="field.name" :class="getFieldClass(field.name)">
-						<label :for="field.name">{{ field.label }}</label>
-						<md-input
-							:id="field.name"
-							v-model="field.value"
-							:type="field.type"
-							:name="field.name"
-							:disabled="form.loading"
-							@keydown="clearFieldMessage(field.name)"
-						/>
-						<span class="md-error">{{ field.message }}</span>
-					</md-field>
-					<md-field v-for="field in [form.username]" :key="field.name" :class="getFieldClass(field.name)">
-						<label :for="field.name">
-							{{ field.label }}
-							<span v-if="formEdit">
-								<md-icon style="font-size: 15px !important">help_outline</md-icon>
-								<md-tooltip md-direction="top">Username can not be edited</md-tooltip>
-							</span>
-						</label>
-						<md-input
-							:id="field.name"
-							v-model="field.value"
-							:type="field.type"
-							:name="field.name"
-							:disabled="form.loading || formEdit"
-							@keydown="clearFieldMessage(field.name)"
-						/>
-						<span class="md-error">{{ field.message }}</span>
-					</md-field>
-					<md-field v-for="field in [form.password]" :key="field.name" :class="getFieldClass(field.name)">
-						<label :for="field.name">
-							{{ field.label }}
-							<span v-if="formEdit">
-								<md-icon style="font-size: 15px !important">help_outline</md-icon>
-								<md-tooltip md-direction="top">Current password has been hashed</md-tooltip>
-							</span>
-						</label>
-						<md-input
-							:id="field.name"
-							v-model="field.value"
-							:type="field.type"
-							:name="field.name"
-							:disabled="form.loading || formEdit"
-							@keydown="clearFieldMessage(field.name)"
-						/>
-						<span class="md-error">{{ field.message }}</span>
-					</md-field>
-					<md-field v-for="field in [form.phone]" :key="field.name" :class="getFieldClass(field.name)">
-						<label :for="field.name">{{ field.label }}</label>
-						<md-input
-							:id="field.name"
-							v-model="field.value"
-							:type="field.type"
-							:name="field.name"
-							:disabled="form.loading"
-							@keydown="clearFieldMessage(field.name)"
-						/>
-						<span class="md-error">{{ field.message }}</span>
-					</md-field>
-					<md-checkbox v-model="form.isAdmin" class="md-primary">
+					<field-input :field="form.fullname" :disabled="loading" />
+					<field-input :field="form.username" :disabled="loading || formEdit" :tip2="formEdit" />
+					<field-input :field="form.password" :disabled="loading" :tip2="formEdit" />
+					<field-input :field="form.phone" :disabled="loading" />
+
+					<md-checkbox v-model="form.isAdmin" class="md-primary"
+						:disabled="loading">
 						Admin
 					</md-checkbox>
-					<md-checkbox v-model="form.isStaff" class="md-primary">
+					<md-checkbox v-model="form.isStaff" class="md-primary"
+						:disabled="loading">
 						Staff
 					</md-checkbox>
 				</md-card-content>
 				<md-card-actions>
-					<md-button type="button" class="md-accent" @click="resetForm">
+					<md-button type="button" class="md-accent"
+						:disabled="loading"
+						@click="resetForm">
 						Reset
 					</md-button>
-					<md-button v-if="formAdd" type="submit" class="md-primary">
+					<md-button v-if="formAdd" type="submit"
+						class="md-primary"
+						:disabled="loading">
 						Add
 					</md-button>
-					<md-button v-else type="submit" class="md-primary">
+					<md-button v-else type="submit"
+						class="md-primary"
+						:disabled="loading">
 						Edit
 					</md-button>
 				</md-card-actions>
@@ -96,8 +49,12 @@
 </template>
 <script>
 import HandleMessage from "@/components/HandleMessage";
+import FieldInput from "@/components/FieldInput";
 export default {
 	name: "UserForm",
+	components: {
+		"field-input": FieldInput
+	},
 	mixins: [HandleMessage],
 	props: {
 		user: {
@@ -109,12 +66,11 @@ export default {
 	},
 	data() {
 		return {
+			loading: false,
 			formAdd: true,
 			form: {
 				isAdmin: false,
 				isStaff: true,
-				loading: false,
-				role: "staff",
 				fullname: {
 					label: "Full name",
 					name: "fullname",
@@ -126,6 +82,7 @@ export default {
 					label: "Username",
 					name: "username",
 					type: "text",
+					tooltip2: "Username can not be edited",
 					value: "",
 					message: ""
 				},
@@ -133,6 +90,7 @@ export default {
 					label: "Password",
 					name: "password",
 					type: "password",
+					tooltip2: "Current password has been hashed",
 					value: "",
 					message: ""
 				},
@@ -159,33 +117,13 @@ export default {
 	},
 	methods: {
 		resetForm() {
-			function clear(...inp) {
-				for (let i of inp) {
-					i.value = "";
-					i.message = "";
-				}
-			}
-			clear(this.form.fullname, this.form.username);
-			clear(this.form.password, this.form.phone);
+			this.form.fullname.value = "";
+			this.form.password.value = "";
+			this.form.username.value = "";
+			this.form.phone.value = "";
 			this.form.isAdmin = false;
 			this.form.isStaff = true;
 			this.formAdd = true;
-		},
-		clearFieldMessage(...fields) {
-			for (let field of fields) {
-				let key = this.form[field];
-				if (key) {
-					key.message = "";
-				}
-			}
-		},
-		getFieldClass(field) {
-			let key = this.form[field];
-			let hasMsg = false;
-			if (key) {
-				hasMsg = Boolean(key.message);
-			}
-			return hasMsg ? "md-invalid" : "";
 		},
 		fillForm(user) {
 			this.form.fullname.value = user.fullname;
@@ -208,7 +146,7 @@ export default {
 		},
 		handleSubmit() {
 			this.$root.$emit("hideMsg");
-			this.form.loading = true;
+			this.loading = true;
 			if (this.formAdd) {
 				this.add();
 			} else {
@@ -220,16 +158,16 @@ export default {
 				.post(this.$api.user.add, this.getFormData())
 				.then(res => {
 					let { message, user } = res.data;
-					this.handleMessage(message);
 					if (user) {
 						this.$root.$emit("userAdded", user);
 					}
+					this.handleMessage(message);
 				})
 				.catch(err => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
-					this.form.loading = false;
+					this.loading = false;
 				});
 		},
 		edit() {
@@ -237,16 +175,16 @@ export default {
 				.post(this.$api.user.edit, this.getFormData())
 				.then(res => {
 					let { message, user } = res.data;
-					this.handleMessage(message);
 					if (user) {
 						this.$root.$emit("userEdited", user);
 					}
+					this.handleMessage(message);
 				})
 				.catch(err => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
-					this.form.loading = false;
+					this.loading = false;
 				});
 		}
 	}

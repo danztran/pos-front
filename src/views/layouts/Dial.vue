@@ -2,8 +2,7 @@
 	<div>
 		<md-speed-dial
 			class="md-bottom-right"
-			md-event="click"
-		>
+			md-event="click">
 			<md-speed-dial-target class="md-primary">
 				<md-icon class="md-morph-initial">
 					add
@@ -14,21 +13,15 @@
 			</md-speed-dial-target>
 
 			<md-speed-dial-content>
-				<md-button
-					class="md-accent"
-					@click="userDialog = true"
-				>
+				<md-button class="md-accent" @click="userDialog = true">
 					new User
 				</md-button>
 
-				<md-button
-					class="md-accent"
-					@click="customerDialog = true"
-				>
+				<md-button class="md-accent" @click="customerDialog = true">
 					new Customer
 				</md-button>
 
-				<md-button class="md-accent">
+				<md-button class="md-accent" @click="showDialog('productDialog')">
 					new Product
 				</md-button>
 			</md-speed-dial-content>
@@ -41,23 +34,43 @@
 		<md-dialog :md-active.sync="customerDialog">
 			<customer-form />
 		</md-dialog>
+
+		<md-dialog :md-active.sync="productDialog">
+			<product-form :product="product" />
+		</md-dialog>
 	</div>
 </template>
 
 <script>
-import UserForm from "@/components/UserForm.vue";
-import CustomerForm from "@/components/CustomerForm.vue";
+import UserForm from "@/components/UserForm";
+import CustomerForm from "@/components/CustomerForm";
+import ProductForm from "@/components/ProductForm";
 export default {
 	name: "Dials",
 	components: {
 		"user-form": UserForm,
-		"customer-form": CustomerForm
+		"customer-form": CustomerForm,
+		"product-form": ProductForm
 	},
 	data() {
 		return {
 			userDialog: false,
-			customerDialog: false
+			customerDialog: false,
+			productDialog: false,
+			product: {}
 		};
+	},
+	mounted() {
+		this.$root.$on("productSelect", (product) => {
+			this.product = product;
+			this.productDialog = true;
+		});
+	},
+	methods: {
+		showDialog(dialog) {
+			this[dialog] = true;
+			this.product = {};
+		}
 	}
 };
 </script>

@@ -3,38 +3,37 @@
 		<md-tabs
 			class="md-primary"
 			md-alignment="centered"
-			md-sync-route
-		>
+			md-sync-route>
 			<md-tab
 				id="tab-home"
 				md-label="Dashboard"
 				md-icon="home"
-				to="/dashboard"
-			/>
+				to="/dashboard" />
 			<md-tab
 				id="tab-profile"
 				:md-label="user.fullname"
 				md-icon="account_circle"
-				to="/profile"
-			/>
+				to="/profile" />
 			<md-tab
 				id="tab-users"
 				md-label="Users"
 				md-icon="supervisor_account"
-				to="/users"
-			/>
+				to="/users" />
 			<md-tab
 				id="tab-customers"
 				md-label="Customers"
 				md-icon="fiber_smart_record"
-				to="/customers"
-			/>
+				to="/customers" />
+			<md-tab
+				id="tab-products"
+				md-label="Products"
+				md-icon="category"
+				to="/products" />
 			<md-tab
 				id="tab-logout"
 				md-label="Log Out"
 				md-icon="call_missed_outgoing"
-				to="/logout"
-			/>
+				to="/logout" />
 		</md-tabs>
 	</div>
 </template>
@@ -52,6 +51,5 @@ export default {
 	created() {
 		this.user = this.$cookies.get("user");
 	},
-	mounted() {}
 };
 </script>

@@ -1,11 +1,11 @@
 <template>
 	<div class="md-layout">
 		<div class="md-layout-item md-large-size-25 md-medium-size-25 md-small-size-50 md-xsmall-size-100">
-			<customer-form :customer="customerSelected" />
+			<customer-form :customer="selected" />
 		</div>
 		<div class="md-layout-item md-large-size-70 md-medium-size-70 md-small-size-50 md-xsmall-size-100">
 			<md-card>
-				<md-progress-bar v-visible="queryLoading" md-mode="indeterminate" />
+				<md-progress-bar v-visible="loading" md-mode="query" />
 				<md-table
 					v-model="customers"
 					md-sort="updatedAt"
@@ -14,8 +14,7 @@
 					:md-sort.sync="queryOption.sortField"
 					:md-sort-order.sync="queryOption.order"
 					:md-sort-fn="customSort"
-					primary
-				>
+					primary>
 					<md-table-toolbar>
 						<div class="md-toolbar-section-start">
 							<h2 md-title>
@@ -31,9 +30,8 @@
 						slot-scope="{ item }"
 						table-header-color="purple"
 						md-selectable="single"
-						@click="select(item)"
-					>
-						<md-table-cell md-label="Role" md-sort-by="fullname">
+						@click="select(item)">
+						<md-table-cell md-label="Full name" md-sort-by="fullname">
 							{{ item.fullname }}
 						</md-table-cell>
 						<md-table-cell md-label="Phone" md-sort-by="phone">
@@ -42,23 +40,17 @@
 						<md-table-cell md-label="Point" md-sort-by="point">
 							{{ item.point }}
 						</md-table-cell>
-						<md-table-cell md-label="Join Date" md-sort-by="createdAt">
+						<md-table-cell md-label="Join date" md-sort-by="createdAt">
 							{{ item.createdAt }}
 						</md-table-cell>
 					</md-table-row>
 				</md-table>
 			</md-card>
-			<div class="">
-				<md-button v-if="queryOption.index == count" class="md-primary" disabled>
-					All have been loaded
-				</md-button>
-				<md-button v-else class="md-primary" @click="loadMoreEntries">
-					Load more entries
-				</md-button>
-				<md-button class="" style="float: right; z-index: 0">
-					{{ queryOption.index }} / {{ count }}
-				</md-button>
-			</div>
+			<table-botbar
+				:loading="loading"
+				:index="queryOption.index"
+				:count="count"
+				@queryMore="queryMore" />
 		</div>
 	</div>
 </template>
@@ -68,12 +60,14 @@
 }
 </style>
 <script>
-import HandleMessage from "@/components/HandleMessage.vue";
-import CustomerForm from "@/components/CustomerForm.vue";
+import HandleMessage from "@/components/HandleMessage";
+import CustomerForm from "@/components/CustomerForm";
+import TableBotBar from "@/components/TableBotBar";
 export default {
-	name: "App",
+	name: "CustomerManagement",
 	components: {
-		"customer-form": CustomerForm
+		"customer-form": CustomerForm,
+		"table-botbar": TableBotBar
 	},
 	mixins: [HandleMessage],
 	data() {
@@ -85,11 +79,11 @@ export default {
 				order: "desc",
 				text: ""
 			},
-			queryTimer: null,
-			queryLoading: false,
+			timer: null,
+			loading: false,
+			count: 0,
 			customers: [],
-			customerSelected: {},
-			count: 0
+			selected: {}
 		};
 	},
 	created() {
@@ -106,33 +100,32 @@ export default {
 		});
 	},
 	methods: {
-		select(customer) {
-			this.customerSelected = customer;
+		select(item) {
+			this.selected = item;
 		},
 		searching() {
-			clearTimeout(this.queryTimer);
-			this.queryTimer = setTimeout(() => {
+			clearTimeout(this.timer);
+			this.timer = setTimeout(() => {
 				this.query();
 			}, 500);
 		},
 		customSort() {
 			this.query();
 		},
-		loadMoreEntries() {
+		queryMore() {
 			this.query(true);
 		},
-		query(concat = false) {
-			this.queryLoading = true;
-			if (!concat) {
+		query(more = false) {
+			this.loading = true;
+			if (!more) {
 				this.queryOption.index = 0;
 			}
-
 			this.$axios
 				.post(this.$api.customer.query, this.queryOption)
 				.then(res => {
 					let { customers, count } = res.data;
 					if (customers) {
-						if (concat) {
+						if (more) {
 							this.customers = [...this.customers, ...customers];
 						} else {
 							this.customers = customers;
@@ -147,7 +140,7 @@ export default {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
-					this.queryLoading = false;
+					this.loading = false;
 				});
 		}
 	}

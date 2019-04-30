@@ -12,5 +12,10 @@ export default {
 		add: h("/customer/add"),
 		edit: h("/customer/edit"),
 		query: h("/customer/query")
+	},
+	product: {
+		add: h("/product/add"),
+		edit: h("/product/edit"),
+		query: h("/product/query")
 	}
 };
