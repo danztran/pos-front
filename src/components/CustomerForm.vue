@@ -48,6 +48,7 @@
 		</form>
 	</div>
 </template>
+
 <script>
 import HandleMessage from "@/components/HandleMessage";
 import FieldInput from "@/components/FieldInput";

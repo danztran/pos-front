@@ -1,6 +1,16 @@
 <script>
 export default {
 	name: "HandleMessage",
+	data() {
+		flashMessage: ""
+	},
+	created() {
+		let message = this.$cookies.get('_fm');
+		if (message) {
+			this.flashMessage = message;
+			this.$cookies.remove('_fm');
+		}
+	},
 	methods: {
 		handleMessage(objectMsg) {
 			if (objectMsg) {

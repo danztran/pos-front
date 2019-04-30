@@ -1,6 +1,6 @@
 <template>
-	<div class="md-layout">
-		<div class="md-layout-item">
+	<div class="md-layout md-gutter md-alignment-top-center">
+		<div class="md-layout-item md-layout-item md-large-size-90 md-medium-size-95 md-small-size-95 md-xsmall-size-905">
 			<md-card>
 				<md-progress-bar v-visible="loading" md-mode="query" />
 				<md-table
@@ -59,13 +59,9 @@
 		</div>
 	</div>
 </template>
-<style>
-.md-layout-item {
-	margin: 15px;
-}
-</style>
+
 <script>
-import HandleMessage from "@/components/HandleMessage.vue";
+import HandleMessage from "@/components/HandleMessage";
 import TableBotBar from "@/components/TableBotBar";
 export default {
 	name: "ProductManagement",
@@ -116,7 +112,8 @@ export default {
 		customSort() {
 			this.query();
 		},
-		queryMore() {
+		queryMore(num = 20) {
+			this.queryOption.length = num;
 			this.query(true);
 		},
 		query(more = false) {

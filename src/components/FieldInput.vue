@@ -25,13 +25,15 @@
 		</md-field>
 	</div>
 </template>
-<style lang="scss">
+
+<style lang="scss" scoped>
 .md-icon {
 	&.tooltip-icon {
 		font-size: 15px !important;
 	}
 }
 </style>
+
 <script>
 export default {
 	name: "FieldInput",

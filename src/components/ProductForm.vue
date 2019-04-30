@@ -1,9 +1,9 @@
 <template>
-	<div>
+	<div class="product-form">
 		<form @submit.prevent="handleSubmit">
 			<md-card>
 				<md-progress-bar v-visible.hid="loading" md-mode="indeterminate" />
-				<md-card-content class="md-toolbar md-layout md-alignment-center-center">
+				<md-card-content class="md-toolbar">
 					<h2 v-if="formAdd" md-title>
 						ADD NEW PRODUCT
 					</h2>
@@ -12,7 +12,7 @@
 					</h2>
 				</md-card-content>
 				<md-card-content>
-					<div class="md-layout">
+					<div class="md-layout md-gutter md-alignment-center-center">
 						<div class="md-layout-item">
 							<field-input :field="form.name" :disabled="loading" />
 							<field-input :field="form.code" :disabled="loading || formEdit" />
@@ -65,12 +65,13 @@
 		</form>
 	</div>
 </template>
-<style>
-.md-dialog {
-	width: 90%;
-	max-width: 600px !important;
+
+<style scoped>
+.product-form .md-card-content {
+	padding: 0 30px !important;
 }
 </style>
+
 <script>
 import HandleMessage from "@/components/HandleMessage";
 import FieldInput from "@/components/FieldInput";

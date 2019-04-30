@@ -15,7 +15,9 @@ import {
 	MdChips,
 	MdSpeedDial,
 	MdDialog,
-	MdDatepicker
+	MdDatepicker,
+	MdMenu,
+	MdList
 } from "vue-material/dist/components";
 
 export default {
@@ -37,5 +39,7 @@ export default {
 		Vue.use(MdSpeedDial);
 		Vue.use(MdDialog);
 		Vue.use(MdDatepicker);
+		Vue.use(MdMenu);
+		Vue.use(MdList);
 	}
 };

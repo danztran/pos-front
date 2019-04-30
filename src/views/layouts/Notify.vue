@@ -15,6 +15,7 @@
 		</md-snackbar>
 	</div>
 </template>
+
 <script>
 export default {
 	name: "Notify",

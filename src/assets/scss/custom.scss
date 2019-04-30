@@ -1,0 +1,31 @@
+@import "./vm-theme";
+
+.md-field.md-focused label,
+.md-field.md-has-value label {
+	font-size: 13px;
+}
+
+.md-table-head-label {
+	color: $primary;
+	font-size: 14px;
+}
+
+.fade {
+	transition: all .3s;
+	&.fadeOut {
+		opacity: 0;
+		visibility: hidden;
+	}
+	&.fadeIn {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+.md-progress-bar {
+	height: 5px;
+}
+
+.none-pointer {
+	pointer-events: none;
+}

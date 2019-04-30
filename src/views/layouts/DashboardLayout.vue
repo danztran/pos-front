@@ -1,19 +1,12 @@
 <template>
 	<div>
 		<navbar />
-		<div class="dashboard-content">
-			<dashboard-content />
-		</div>
-
+		<dash-content/>
 		<notify />
 		<dial />
 	</div>
 </template>
-<style lang="scss">
-.dashboard-content {
-  padding: 20px;
-}
-</style>
+
 <script>
 import NavBar from "./NavBar.vue";
 import Content from "./Content.vue";
@@ -22,10 +15,10 @@ import Dial from "./Dial.vue";
 
 export default {
 	components: {
-		navbar: NavBar,
-		"dashboard-content": Content,
-		notify: Notify,
-		dial: Dial
+		"navbar": NavBar,
+		"dash-content": Content,
+		"notify": Notify,
+		"dial": Dial
 	}
 };
 </script>

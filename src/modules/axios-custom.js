@@ -1,5 +1,6 @@
 import axios from "axios";
 import router from "@/router";
+import cookies from "vue-cookies";
 
 // insert all your axios logic here
 axios.defaults.baseURL = "http://localhost:8080/";
@@ -9,8 +10,12 @@ axios.interceptors.response.use(
 	response => {
 		return response;
 	},
-	function(error) {
+	(error) => {
 		if (error.response.status === 401) {
+			if	(cookies.get('user')) {
+				cookies.set('_fm', 'Your session has expired.');
+				cookies.remove('user');
+			}
 			router.push({ name: "login" });
 		}
 		return Promise.reject(error.response.data);

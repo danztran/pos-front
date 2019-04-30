@@ -6,12 +6,13 @@ import cookies from "vue-cookies";
 
 import authMdw from "./middlewares/auth-middleware";
 
-import Login from "./views/Login.vue";
-import DashboardLayout from "./views/layouts/DashboardLayout.vue";
-import Dashboard from "./views/Dashboard.vue";
-import UserManagement from "./views/UserManagement.vue";
-import CustomerManagement from "./views/CustomerManagement.vue";
-import ProductManagement from "./views/ProductManagement.vue";
+import Page from "./views/layouts/Page";
+import Login from "./views/Login";
+import DashboardLayout from "./views/layouts/DashboardLayout";
+import Dashboard from "./views/Dashboard";
+import UserManagement from "./views/UserManagement";
+import CustomerManagement from "./views/CustomerManagement";
+import ProductManagement from "./views/ProductManagement";
 
 Vue.use(Router);
 
@@ -20,80 +21,67 @@ const router = new Router({
 	base: process.env.BASE_URL,
 	routes: [
 		{
-			path: "/login",
-			name: "login",
-			component: Login,
-			meta: {
-				title: "Login",
-				middleware: function({ next, router }) {
-					if (authMdw.isUser()) {
-						axios.get("/auth/logout").then(res => {
-							cookies.remove("user");
-						});
-					}
-					next();
-				}
-			}
-		},
-		{
-			path: "/logout",
-			name: "logout",
-			redirect: "/login",
-			meta: {
-				title: "Logout"
-			}
-		},
-		{
 			path: "/",
-			component: DashboardLayout,
-			redirect: "/dashboard",
+			component: Page,
 			children: [
 				{
-					path: "dashboard",
-					name: "dashboard",
-					component: Dashboard,
+					path: "/login",
+					name: "login",
+					component: Login,
 					meta: {
-						title: "Dashboard",
-						middleware: authMdw.auth
+						title: "Login",
+						middleware: authMdw.logout
 					}
 				},
 				{
-					path: "users",
-					name: "users",
-					component: UserManagement,
+					path: "/logout",
+					name: "logout",
+					redirect: "/login",
 					meta: {
-						title: "User Management",
-						middleware: authMdw.auth
+						title: "Logout"
 					}
 				},
 				{
-					path: "customers",
-					name: "customers",
-					component: CustomerManagement,
-					meta: {
-						title: "Customer Management",
-						middleware: authMdw.auth
-					}
+					path: "/",
+					component: DashboardLayout,
+					beforeEnter: authMdw.guard,
+					redirect: "/dashboard",
+					children: [
+						{
+							path: "dashboard",
+							name: "dashboard",
+							component: Dashboard,
+							meta: {
+								title: "Dashboard",
+							}
+						},
+						{
+							path: "users",
+							name: "users",
+							component: UserManagement,
+							meta: {
+								title: "User Management",
+							}
+						},
+						{
+							path: "customers",
+							name: "customers",
+							component: CustomerManagement,
+							meta: {
+								title: "Customer Management",
+							}
+						},
+						{
+							path: "products",
+							name: "products",
+							component: ProductManagement,
+							meta: {
+								title: "Product Management",
+							}
+						}
+					]
 				},
-				{
-					path: "products",
-					name: "products",
-					component: ProductManagement,
-					meta: {
-						title: "Product Management",
-						middleware: authMdw.auth
-					}
-				}
 			]
-		},
-		{
-			path: "/about",
-			name: "about",
-			// route level code-splitting
-			// this generates a separate chunk (about.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
-			component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
 		}
 	]
 });

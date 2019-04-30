@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<md-speed-dial
-			class="md-bottom-right"
+			class="md-bottom-right md-fixed"
 			md-event="click">
 			<md-speed-dial-target class="md-primary">
 				<md-icon class="md-morph-initial">
@@ -27,19 +27,38 @@
 			</md-speed-dial-content>
 		</md-speed-dial>
 
-		<md-dialog :md-active.sync="userDialog">
+		<md-dialog :md-active.sync="userDialog" class="user-dialog">
 			<user-form />
 		</md-dialog>
 
-		<md-dialog :md-active.sync="customerDialog">
+		<md-dialog :md-active.sync="customerDialog" class="customer-dialog">
 			<customer-form />
 		</md-dialog>
 
-		<md-dialog :md-active.sync="productDialog">
-			<product-form :product="product" />
+		<md-dialog :md-active.sync="productDialog" class="product-dialog">
+			<md-dialog-content>
+				<product-form :product="product" />
+			</md-dialog-content>
 		</md-dialog>
 	</div>
 </template>
+
+<style lang="scss" scoped>
+.md-dialog {
+	.md-dialog-content {
+		padding: 0 !important;
+	}
+	&.customer-dialog,
+	&.user-dialog {
+		width: 90%;
+		max-width: 350px !important;
+	}
+	&.product-dialog {
+		width: 90%;
+		max-width: 600px !important;
+	}
+}
+</style>
 
 <script>
 import UserForm from "@/components/UserForm";
@@ -76,12 +95,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.md-speed-dial {
+	z-index: 2;
+}
 .md-speed-dial-content {
   align-items: flex-start;
 }
 .md-speed-dial-target {
-  -webkit-box-shadow: 0 0 3px black;
-  -moz-box-shadow: 0 0 3px black;
-  box-shadow: 0 0 5px orange;
+  // -webkit-box-shadow: 0 0 3px black;
+  // -moz-box-shadow: 0 0 3px black;
+  // box-shadow: 2px 0 3px grey;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="navbar">
 		<md-tabs
 			class="md-primary"
 			md-alignment="centered"
@@ -37,6 +37,15 @@
 		</md-tabs>
 	</div>
 </template>
+<style scoped>
+.navbar {
+	position: sticky;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 2;
+}
+</style>
 <script>
 export default {
 	name: "TabIcons",

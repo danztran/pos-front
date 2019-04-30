@@ -1,9 +1,9 @@
 <template>
-	<div class="md-layout">
-		<div class="md-layout-item md-large-size-25 md-medium-size-25 md-small-size-50 md-xsmall-size-100">
+	<div class="md-layout md-gutter md-alignment-top-center">
+		<div class="md-layout-item md-large-size-25 md-medium-size-50 md-small-size-75 md-xsmall-size-100">
 			<user-form :user="selected" />
 		</div>
-		<div class="md-layout-item md-large-size-70 md-medium-size-70 md-small-size-50 md-xsmall-size-100">
+		<div class="md-layout-item md-large-size-70 md-medium-size-100 md-small-size-100 md-xsmall-size-100">
 			<md-card>
 				<md-progress-bar v-visible="loading" md-mode="query" />
 				<md-table
@@ -31,7 +31,7 @@
 						md-selectable="single"
 						@click="select(item)">
 						<md-table-cell md-label="Role" md-sort-by="isAdmin">
-							{{ item.isAdmin ? "Admin" : isStaff ? "Staff" : "None" }}
+							{{ item.isAdmin ? "Admin" : item.isStaff ? "Staff" : "None" }}
 						</md-table-cell>
 						<md-table-cell md-label="Full name" md-sort-y="fullname">
 							{{ item.fullname }}
@@ -56,14 +56,10 @@
 		</div>
 	</div>
 </template>
-<style>
-.md-layout-item {
-	margin: 15px;
-}
-</style>
+
 <script>
-import HandleMessage from "@/components/HandleMessage.vue";
-import UserForm from "@/components/UserForm.vue";
+import HandleMessage from "@/components/HandleMessage";
+import UserForm from "@/components/UserForm";
 import TableBotBar from "@/components/TableBotBar";
 export default {
 	name: "UserManagement",
@@ -114,7 +110,8 @@ export default {
 		customSort() {
 			this.query();
 		},
-		queryMore() {
+		queryMore(num = 20) {
+			this.queryOption.length = num;
 			this.query(true);
 		},
 		query(more = false) {

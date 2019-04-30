@@ -3,6 +3,10 @@ const host = "http://localhost:8080";
 const h = ref => host + ref;
 
 export default {
+	auth: {
+		login: h("/auth/login"),
+		logout: h("/auth/logout")
+	},
 	user: {
 		add: h("/user/add"),
 		edit: h("/user/edit"),

@@ -14,29 +14,3 @@ $accent: md-get-palette-color(black, A200);
 ));
 
 @import "~vue-material/dist/theme/all"; // Apply the theme
-
-.md-field.md-focused label,
-.md-field.md-has-value label {
-	font-size: 13px;
-}
-
-.md-table-head-label {
-	color: $primary;
-	font-size: 14px;
-}
-
-.fade {
-	transition: all .3s;
-	&.fadeOut {
-		opacity: 0;
-		visibility: hidden;
-	}
-	&.fadeIn {
-		opacity: 1;
-		visibility: visible;
-	}
-}
-
-.md-progress-bar {
-	height: 4px;
-}

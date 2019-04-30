@@ -10,18 +10,20 @@ import vmc from "./modules/vue-marterial-custom";
 
 // custom style
 import "vue-material/dist/vue-material.min.css";
-import "./assets/scss/vm-theme.scss";
+import "./assets/scss/custom.scss";
 
 // config
 Vue.config.productionTip = false;
 
 // custome prototype
-Vue.prototype.$axios = axios;
 Vue.prototype.$api = api;
+Vue.prototype.$axios = axios;
 
 // plugins
 Vue.use(cookies);
 Vue.use(vmc);
+
+// custom directives
 Vue.directive("visible", directives.visible);
 
 Vue.component("router-link", Vue.options.components.RouterLink);
