@@ -1,9 +1,9 @@
 <template>
 	<div class="md-layout md-gutter md-alignment-top-center">
-		<div class="md-layout-item md-large-size-25 md-medium-size-50 md-small-size-75 md-xsmall-size-100">
+		<div class="md-layout-item md-large-size-25 md-medium-size-27 md-small-size-75 md-xsmall-size-100">
 			<customer-form :customer="selected" />
 		</div>
-		<div class="md-layout-item md-large-size-70 md-medium-size-100 md-small-size-100 md-xsmall-size-100">
+		<div class="md-layout-item md-large-size-70 md-medium-size-65 md-small-size-100 md-xsmall-size-100">
 			<md-card>
 				<md-progress-bar v-visible="loading" md-mode="query" />
 				<md-table
@@ -49,7 +49,6 @@
 			<table-botbar
 				:loading="loading"
 				:index="queryOption.index"
-				:length.sync="queryOption.length"
 				:count="count"
 				@queryMore="queryMore" />
 		</div>
@@ -70,7 +69,7 @@ export default {
 	data() {
 		return {
 			queryOption: {
-				length: 20,
+				length: 10,
 				index: 0,
 				sortField: "updatedAt",
 				order: "desc",
@@ -109,7 +108,7 @@ export default {
 		customSort() {
 			this.query();
 		},
-		queryMore(num = 20) {
+		queryMore(num) {
 			this.queryOption.length = num;
 			this.query(true);
 		},
@@ -138,6 +137,7 @@ export default {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
+					this.queryOption.length = 10;
 					this.loading = false;
 				});
 		}

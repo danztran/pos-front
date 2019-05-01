@@ -30,8 +30,12 @@
 								<span class="md-error">{{ password.message }}</span>
 							</md-field>
 						</md-card-content>
-						<p class="text-message" v-visible="Boolean(flashMessage)">{{ flashMessage }}</p>
-						<p class="text-message" v-visible="Boolean(message)">{{ message }}</p>
+						<p v-visible="Boolean(flashMessage)" class="text-message">
+							{{ flashMessage }}
+						</p>
+						<p v-visible="Boolean(message)" class="text-message">
+							{{ message }}
+						</p>
 						<md-card-actions>
 							<div class="actions md-layout md-alignment-center-space-between">
 								<md-button type="submit" class="md-raised md-primary" @click="sendAuth">
@@ -46,9 +50,6 @@
 	</div>
 </template>
 <script>
-/* eslint-disable */
-
-import { mixin as clickaway } from 'vue-clickaway';
 import HandleMessage from '@/components/HandleMessage';
 export default {
 	name: "App",
@@ -78,9 +79,9 @@ export default {
 			this.clearMsg();
 			this.loading = true;
 			this.$axios.post(this.$api.auth.login, {
-					username: this.username.value,
-					password: this.password.value
-				})
+				username: this.username.value,
+				password: this.password.value
+			})
 				.then(res => {
 					this.$cookies.set('user', res.data.user);
 					this.$router.push({ name: 'dashboard' });
@@ -99,50 +100,50 @@ export default {
 						}
 					}
 				})
-			.then(() => {
-				this.loading = false;
-			});
+				.then(() => {
+					this.loading = false;
+				});
 		}
 	}
 };
 </script>
-<style lang="scss">
-.page-enter-active, .page-leave-active {
-  transition: opacity 1s, transform 1s;
-}
-.page-enter, .page-leave-to {
-  opacity: 0;
-  transform: translateX(-30%);
-}
+<style lang="scss" scoped>
+	.page-enter-active, .page-leave-active {
+		transition: opacity 1s, transform 1s;
+	}
+	.page-enter, .page-leave-to {
+		opacity: 0;
+		transform: translateX(-30%);
+	}
 
-.centered-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
-	height: 100vh;
+	.centered-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		height: 100vh;
 
-	.md-card {
-		top: -5vh;
-		text-align: center;
-		width: 100%;
-		max-width: 370px;
+		.md-card {
+			top: -5vh;
+			text-align: center;
+			width: 100%;
+			max-width: 370px;
 
-		.md-content {
-			margin: 20px;
-		}
+			.md-content {
+				margin: 20px;
+			}
 
-		img {
-			max-width: 80px;
-		}
+			img {
+				max-width: 80px;
+			}
 
-		.text-message {
-			text-align: left;
-			color: firebrick;
-			margin: 0;
-			min-height: 20px;
-			padding: 0 16px;
+			.text-message {
+				text-align: left;
+				color: firebrick;
+				margin: 0;
+				min-height: 20px;
+				padding: 0 16px;
+			}
 		}
 	}
-}
 </style>

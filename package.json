@@ -44,7 +44,7 @@
 			"vue/script-indent": ["error", "tab"],
 			"vue/html-closing-bracket-newline": ["error"],
 			"vue/max-attributes-per-line": ["error", {
-				"singleline": 3,
+				"singleline": 4,
 				"multiline": {
 					"max": 2,
 					"allowFirstLine": true

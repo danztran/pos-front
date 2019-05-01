@@ -1,6 +1,6 @@
 <template>
 	<div class="md-layout md-gutter md-alignment-top-center">
-		<div class="md-layout-item md-layout-item md-large-size-90 md-medium-size-95 md-small-size-95 md-xsmall-size-905">
+		<div class="md-layout-item md-layout-item md-large-size-90 md-medium-size-95">
 			<md-card>
 				<md-progress-bar v-visible="loading" md-mode="query" />
 				<md-table
@@ -30,11 +30,11 @@
 						<md-table-cell md-label="Status" md-sort-by="status">
 							{{ item.status ? "On" : "Off" }}
 						</md-table-cell>
-						<md-table-cell md-label="Code" md-sort-by="code">
-							{{ item.code }}
-						</md-table-cell>
 						<md-table-cell md-label="Name" md-sort-by="name">
 							{{ item.name }}
+						</md-table-cell>
+						<md-table-cell md-label="Code" md-sort-by="code">
+							{{ item.code }}
 						</md-table-cell>
 						<md-table-cell md-label="Quantity" md-sort-by="quantity">
 							{{ item.quantity }}
@@ -126,6 +126,9 @@ export default {
 				.post(this.$api.product.query, this.queryOption)
 				.then(res => {
 					let { products, count } = res.data;
+					if (count) {
+						this.count = count;
+					}
 					if (products) {
 						if (more) {
 							this.products = [...this.products, ...products];
@@ -133,15 +136,16 @@ export default {
 							this.products = products;
 						}
 						this.queryOption.index = this.products.length;
-					}
-					if (count) {
-						this.count = count;
+						// if (products.length < this.queryOption.length) {
+						// 	this.count = this.queryOption.index;
+						// }
 					}
 				})
 				.catch(err => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
+					this.queryOption.length = 10;
 					this.loading = false;
 				});
 		}

@@ -1,27 +1,31 @@
 <template>
 	<div class="">
-		<md-button class="none-pointer" style="float: right; z-index: 0">
-			{{ index }} / {{ count }}
-		</md-button>
+		<transition name="rotate">
+			<md-button v-if="index && count" class="none-pointer" style="float: right; z-index: 0">
+				{{ index }} / {{ count }}
+			</md-button>
+		</transition>
 		<md-button v-if="loading">
 			Loading...
 		</md-button>
 		<md-button v-else-if="index == count" class="none-pointer">
-			All records have been loaded
+			No more records
 		</md-button>
 		<div v-else>
 			<md-button class="none-pointer">
 				Load more:
 			</md-button>
-			<md-button class="md-primary" @click="queryMore(20)">
-				20 records
-			</md-button>
-			<md-button class="md-primary" @click="queryMore(50)">
-				50 records
-			</md-button>
-			<md-button class="md-primary" @click="queryMore(100)">
-				100 records
-			</md-button>
+			<span v-for="(item, i) in lengths" :key="item">
+				<md-button v-if="i == 0" class="md-primary" @click="queryMore(getQueryLength(item))">
+					{{ getQueryLength(item) }} records
+				</md-button>
+				<span v-else>
+					<!-- hide current item if previous item is less than the ress -->
+					<md-button v-if="count - index > lengths[i - 1]" class="md-primary" @click="queryMore(getQueryLength(item))">
+						{{ getQueryLength(item) }} records
+					</md-button>
+				</span>
+			</span>
 		</div>
 	</div>
 </template>
@@ -43,7 +47,15 @@ export default {
 			default: true
 		},
 	},
+	data() {
+		return {
+			lengths: [20, 50, 100]
+		}
+	},
 	methods: {
+		getQueryLength(num) {
+			return this.index + num > this.count ? this.count - this.index : num;
+		},
 		queryMore(num) {
 			this.$emit('queryMore', num);
 		}

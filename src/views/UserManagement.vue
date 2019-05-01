@@ -1,9 +1,9 @@
 <template>
 	<div class="md-layout md-gutter md-alignment-top-center">
-		<div class="md-layout-item md-large-size-25 md-medium-size-50 md-small-size-75 md-xsmall-size-100">
+		<div class="md-layout-item md-large-size-25 md-medium-size-27 md-small-size-75 md-xsmall-size-100">
 			<user-form :user="selected" />
 		</div>
-		<div class="md-layout-item md-large-size-70 md-medium-size-100 md-small-size-100 md-xsmall-size-100">
+		<div class="md-layout-item md-large-size-70 md-medium-size-65 md-small-size-100 md-xsmall-size-100">
 			<md-card>
 				<md-progress-bar v-visible="loading" md-mode="query" />
 				<md-table
@@ -140,6 +140,7 @@ export default {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
+					this.queryOption.length = 10;
 					this.loading = false;
 				});
 		}

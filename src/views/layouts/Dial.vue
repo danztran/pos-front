@@ -1,8 +1,6 @@
 <template>
 	<div>
-		<md-speed-dial
-			class="md-bottom-right md-fixed"
-			md-event="click">
+		<md-speed-dial class="md-top-right md-fixed" md-event="click" md-direction="bottom">
 			<md-speed-dial-target class="md-primary">
 				<md-icon class="md-morph-initial">
 					add
@@ -44,6 +42,27 @@
 </template>
 
 <style lang="scss" scoped>
+.md-speed-dial {
+	top: 36px !important;
+	right: 70px !important;
+	pointer-events: none;
+	z-index: 2;
+	.md-speed-dial-target {
+		position: absolute;
+		right: 0;
+		pointer-events: all;
+		// -webkit-box-shadow: 0 0 3px black;
+		// -moz-box-shadow: 0 0 3px black;
+		// box-shadow: 2px 0 3px grey;
+	}
+	.md-speed-dial-content {
+		margin-top: 60px;
+		align-items: flex-end;
+		.md-button {
+			// box-shadow: 0px 0px 2px 0px grey;
+		}
+	}
+}
 .md-dialog {
 	.md-dialog-content {
 		padding: 0 !important;
@@ -93,17 +112,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.md-speed-dial {
-	z-index: 2;
-}
-.md-speed-dial-content {
-  align-items: flex-start;
-}
-.md-speed-dial-target {
-  // -webkit-box-shadow: 0 0 3px black;
-  // -moz-box-shadow: 0 0 3px black;
-  // box-shadow: 2px 0 3px grey;
-}
-</style>
