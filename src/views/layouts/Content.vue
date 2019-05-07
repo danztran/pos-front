@@ -11,8 +11,7 @@
   padding: 20px;
 }
 .md-layout.md-gutter > .md-layout-item {
-	padding: 0 !important;
-	margin: 10px 15px;
+	margin-top: 15px;
 }
 </style>
 

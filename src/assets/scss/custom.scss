@@ -20,6 +20,18 @@
 	transform: rotate(90deg);
 }
 
+.height-enter-active,
+.height-leave-active {
+	transition: all .3s;
+	max-height: 80px;
+}
+.height-enter,
+.height-leave-to {
+	opacity: 0;
+	max-height: 0;
+	overflow: hidden;
+}
+
 .fade {
 	transition: all .3s;
 	&.fadeOut {
@@ -51,6 +63,10 @@
 	font-size: 13px;
 }
 
+.md-text-primary {
+	color: $primary;
+}
+
 .md-table-head-label {
 	color: $primary;
 	font-size: 14px;
@@ -58,4 +74,19 @@
 
 .none-pointer {
 	pointer-events: none;
+}
+
+.line-through {
+	text-decoration: line-through;
+}
+
+.sale-pill {
+	border-radius: 5px;
+	margin-left: 10px;
+	background: indianred;
+	.sale-pill_text {
+		padding: 5px;
+		color: white;
+		font-size: 12px;
+	}
 }

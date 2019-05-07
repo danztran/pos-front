@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<md-field :class="field.message ? 'md-invalid' : ''">
+		<md-field :class="{ 'md-invalid': field.message }" :md-counter="field.maxlength > 0">
 			<label :for="field.name">
 				{{ field.label }}
 				<span v-if="tip1">
@@ -19,6 +19,9 @@
 				:type="field.type"
 				:name="field.name"
 				:disabled="disabled"
+				:min="field.min != undefined ? field.min : null"
+				:max="field.max > 0 ? field.max : null"
+				:maxlength="field.maxlength > 0 ? field.maxlength : null"
 				@input="field.message = ''" />
 			<span v-if="field.suffix" class="md-suffix">{{ field.suffix }}</span>
 			<span class="md-error">{{ field.message }}</span>
@@ -48,7 +51,8 @@ export default {
 					value: "",
 					message: "",
 					prefix: "",
-					suffix: ""
+					suffix: "",
+					maxlength: null
 				}
 			}
 		},

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<navbar />
-		<dash-content/>
+		<dash-content />
 		<notify />
 		<dial />
 	</div>

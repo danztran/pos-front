@@ -40,10 +40,10 @@
 							{{ item.quantity }}
 						</md-table-cell>
 						<md-table-cell md-label="Origin Price" md-sort-by="origin">
-							{{ item.origin.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+							{{ parseMoney(item.origin) }}
 						</md-table-cell>
 						<md-table-cell md-label="Price" md-sort-by="price">
-							{{ item.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+							{{ parseMoney(item.price) }}
 						</md-table-cell>
 						<md-table-cell md-label="Sale" md-sort-by="sale">
 							{{ item.sale + '%' }}
@@ -62,13 +62,14 @@
 
 <script>
 import HandleMessage from "@/components/HandleMessage";
+import CommonMixin from "@/components/CommonMixin";
 import TableBotBar from "@/components/TableBotBar";
 export default {
 	name: "ProductManagement",
 	components: {
 		"table-botbar": TableBotBar
 	},
-	mixins: [HandleMessage],
+	mixins: [HandleMessage, CommonMixin],
 	data() {
 		return {
 			queryOption: {
@@ -126,7 +127,7 @@ export default {
 				.post(this.$api.product.query, this.queryOption)
 				.then(res => {
 					let { products, count } = res.data;
-					if (count) {
+					if (count !== undefined) {
 						this.count = count;
 					}
 					if (products) {

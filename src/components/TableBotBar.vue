@@ -8,7 +8,10 @@
 		<md-button v-if="loading">
 			Loading...
 		</md-button>
-		<md-button v-else-if="index == count" class="none-pointer">
+		<md-button v-else-if="count == 0" class="none-pointer" style="color: darkred;">
+			No matching record found
+		</md-button>
+		<md-button v-else-if="index == count" class="none-pointer" disabled>
 			No more records
 		</md-button>
 		<div v-else>

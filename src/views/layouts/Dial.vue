@@ -11,15 +11,16 @@
 			</md-speed-dial-target>
 
 			<md-speed-dial-content>
+				<md-button class="md-raised md-accent" to="/bill">
+					new Bill
+				</md-button>
 				<md-button class="md-accent" @click="userDialog = true">
 					new User
 				</md-button>
-
 				<md-button class="md-accent" @click="customerDialog = true">
 					new Customer
 				</md-button>
-
-				<md-button class="md-accent" @click="showDialog('productDialog')">
+				<md-button class="md-accent" @click="showNewDialog('productDialog')">
 					new Product
 				</md-button>
 			</md-speed-dial-content>
@@ -28,11 +29,9 @@
 		<md-dialog :md-active.sync="userDialog" class="user-dialog">
 			<user-form />
 		</md-dialog>
-
 		<md-dialog :md-active.sync="customerDialog" class="customer-dialog">
 			<customer-form />
 		</md-dialog>
-
 		<md-dialog :md-active.sync="productDialog" class="product-dialog">
 			<md-dialog-content>
 				<product-form :product="product" />
@@ -88,24 +87,24 @@ export default {
 	components: {
 		"user-form": UserForm,
 		"customer-form": CustomerForm,
-		"product-form": ProductForm
+		"product-form": ProductForm,
 	},
 	data() {
 		return {
 			userDialog: false,
 			customerDialog: false,
 			productDialog: false,
-			product: {}
+			product: {},
 		};
 	},
 	mounted() {
-		this.$root.$on("productSelect", (product) => {
+		this.$root.$on("productSelect", product => {
 			this.product = product;
 			this.productDialog = true;
 		});
 	},
 	methods: {
-		showDialog(dialog) {
+		showNewDialog(dialog) {
 			this[dialog] = true;
 			this.product = {};
 		}

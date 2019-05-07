@@ -7,18 +7,22 @@
 				<md-content>
 					<form @submit.prevent="sendAuth">
 						<md-card-media>
-							<img src="https://image.flaticon.com/icons/png/512/64/64526.png" alt="">
+							<img src="logo.png" alt="">
 						</md-card-media>
 						<md-card-header>
 							<div class="md-title">
-								Login to POS
+								POS LOGIN
 							</div>
 							<!-- <div class="md-subhead">Log in</div> -->
 						</md-card-header>
 						<md-card-content>
 							<md-field :class="username.status">
 								<label>Username</label>
-								<md-input v-model="username.value" autofocus @keydown="username.status = ''" />
+								<md-input
+									v-model="username.value"
+									autofocus
+									:disabled="loading"
+									@keydown="username.status = ''" />
 								<span class="md-error">{{ username.message }}</span>
 							</md-field>
 							<md-field md-has-password :class="password.status">
@@ -26,6 +30,7 @@
 								<md-input
 									v-model="password.value"
 									type="password"
+									:disabled="loading"
 									@keydown="password.status = ''" />
 								<span class="md-error">{{ password.message }}</span>
 							</md-field>
@@ -38,7 +43,7 @@
 						</p>
 						<md-card-actions>
 							<div class="actions md-layout md-alignment-center-space-between">
-								<md-button type="submit" class="md-raised md-primary" @click="sendAuth">
+								<md-button type="submit" class="md-raised md-primary" :disabled="loading" @click="sendAuth">
 									Log in
 								</md-button>
 							</div>

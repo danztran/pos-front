@@ -16,6 +16,12 @@
 			<md-tab id="tab-products" md-label="Products"
 				md-icon="category"
 				to="/products" />
+			<md-tab id="tab-bills" md-label="Bills"
+				md-icon="featured_play_list"
+				to="/bills" />
+			<md-tab id="tab-bill" md-label="Create Bill"
+				md-icon="playlist_add"
+				to="/bill" />
 			<md-tab id="tab-logout" md-label="Log Out"
 				md-icon="call_missed_outgoing"
 				to="/logout" />

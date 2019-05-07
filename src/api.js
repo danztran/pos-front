@@ -21,5 +21,9 @@ export default {
 		add: h("/product/add"),
 		edit: h("/product/edit"),
 		query: h("/product/query")
+	},
+	bill: {
+		add: h("/bill/add"),
+		query: h("/bill/query")
 	}
 };

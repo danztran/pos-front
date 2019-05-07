@@ -13,6 +13,8 @@ import Dashboard from "./views/Dashboard";
 import UserManagement from "./views/UserManagement";
 import CustomerManagement from "./views/CustomerManagement";
 import ProductManagement from "./views/ProductManagement";
+import BillManagement from "./views/BillManagement";
+import BillCreator from "./views/BillCreator";
 
 Vue.use(Router);
 
@@ -77,6 +79,22 @@ const router = new Router({
 							component: ProductManagement,
 							meta: {
 								title: "Product Management",
+							}
+						},
+						{
+							path: "bill",
+							name: "bill",
+							component: BillCreator,
+							meta: {
+								title: "Create Bill",
+							}
+						},
+						{
+							path: "bills",
+							name: "bills",
+							component: BillManagement,
+							meta: {
+								title: "Bill Management",
 							}
 						}
 					]

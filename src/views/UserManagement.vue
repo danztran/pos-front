@@ -33,7 +33,7 @@
 						<md-table-cell md-label="Role" md-sort-by="isAdmin">
 							{{ item.isAdmin ? "Admin" : item.isStaff ? "Staff" : "None" }}
 						</md-table-cell>
-						<md-table-cell md-label="Full name" md-sort-y="fullname">
+						<md-table-cell md-label="Full name" md-sort-by="fullname">
 							{{ item.fullname }}
 						</md-table-cell>
 						<md-table-cell md-label="Username" md-sort-by="username">
@@ -124,6 +124,9 @@ export default {
 				.post(this.$api.user.query, this.queryOption)
 				.then(res => {
 					let { users, count } = res.data;
+					if (count !== undefined) {
+						this.count = count;
+					}
 					if (users) {
 						if (more) {
 							this.users = [...this.users, ...users];
@@ -131,9 +134,6 @@ export default {
 							this.users = users;
 						}
 						this.queryOption.index = this.users.length;
-					}
-					if (count) {
-						this.count = count;
 					}
 				})
 				.catch(err => {

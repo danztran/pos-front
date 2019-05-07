@@ -51,6 +51,42 @@
 <script>
 import HandleMessage from "@/components/HandleMessage";
 import FieldInput from "@/components/FieldInput";
+const initForm = function() {
+	return {
+		isAdmin: false,
+		isStaff: true,
+		fullname: {
+			label: "Full name",
+			name: "fullname",
+			type: "text",
+			value: "",
+			message: ""
+		},
+		username: {
+			label: "Username",
+			name: "username",
+			type: "text",
+			tooltip2: "Username can not be edited",
+			value: "",
+			message: ""
+		},
+		password: {
+			label: "Password",
+			name: "password",
+			type: "password",
+			tooltip2: "Current password has been hashed",
+			value: "",
+			message: ""
+		},
+		phone: {
+			label: "Phone number",
+			name: "phone",
+			type: "text",
+			value: "",
+			message: ""
+		}
+	}
+};
 export default {
 	name: "UserForm",
 	components: {
@@ -69,40 +105,7 @@ export default {
 		return {
 			loading: false,
 			formAdd: true,
-			form: {
-				isAdmin: false,
-				isStaff: true,
-				fullname: {
-					label: "Full name",
-					name: "fullname",
-					type: "text",
-					value: "",
-					message: ""
-				},
-				username: {
-					label: "Username",
-					name: "username",
-					type: "text",
-					tooltip2: "Username can not be edited",
-					value: "",
-					message: ""
-				},
-				password: {
-					label: "Password",
-					name: "password",
-					type: "password",
-					tooltip2: "Current password has been hashed",
-					value: "",
-					message: ""
-				},
-				phone: {
-					label: "Phone number",
-					name: "phone",
-					type: "text",
-					value: "",
-					message: ""
-				}
-			}
+			form: initForm()
 		};
 	},
 	computed: {
@@ -118,13 +121,8 @@ export default {
 	},
 	methods: {
 		resetForm() {
-			this.form.fullname.value = "";
-			this.form.password.value = "";
-			this.form.username.value = "";
-			this.form.phone.value = "";
-			this.form.isAdmin = false;
-			this.form.isStaff = true;
 			this.formAdd = true;
+			this.form = initForm();
 		},
 		fillForm(user) {
 			this.form.fullname.value = user.fullname;

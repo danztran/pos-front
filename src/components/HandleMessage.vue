@@ -12,23 +12,26 @@ export default {
 		}
 	},
 	methods: {
-		handleMessage(objectMsg) {
-			if (objectMsg) {
-				let message = "";
-				for (let key in objectMsg) {
+		handleMessage(dataMsg) {
+			if (typeof dataMsg == 'string') {
+				this.$root.$emit("showMsg", dataMsg);
+			}
+			else {
+				const messages = [];
+				for (let key in dataMsg) {
 					if (this.form) {
 						if (this.form.hasOwnProperty(key)) {
-							this.form[key].message = objectMsg[key];
+							this.form[key].message = dataMsg[key];
 						} else {
-							message += objectMsg[key];
+							messages.push(dataMsg[key]);
 						}
 					} else {
-						message += objectMsg[key];
+						messages.push(dataMsg[key]);
 					}
 				}
 
-				if (message.trim()) {
-					this.$root.$emit("showMsg", message);
+				if (messages.length > 0) {
+					this.$root.$emit("showMsg", messages.join('\n\r'));
 				} else {
 					this.$root.$emit("hideMsg");
 				}

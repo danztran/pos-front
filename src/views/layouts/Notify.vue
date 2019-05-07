@@ -16,6 +16,13 @@
 	</div>
 </template>
 
+<style lang="scss" scoped>
+.md-snackbar {
+	max-height: unset;
+	white-space: pre;
+}
+</style>
+
 <script>
 export default {
 	name: "Notify",

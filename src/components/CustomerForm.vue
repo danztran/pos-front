@@ -52,6 +52,26 @@
 <script>
 import HandleMessage from "@/components/HandleMessage";
 import FieldInput from "@/components/FieldInput";
+const initForm = function() {
+	return {
+		_id: "",
+		fullname: {
+			label: "Full name",
+			name: "fullname",
+			type: "text",
+			value: "",
+			message: ""
+		},
+		phone: {
+			label: "Phone number",
+			name: "phone",
+			type: "text",
+			value: "",
+			message: ""
+		},
+		point: 0
+	}
+}
 export default {
 	name: "CustomerForm",
 	components: {
@@ -70,24 +90,7 @@ export default {
 		return {
 			loading: false,
 			formAdd: true,
-			form: {
-				_id: "",
-				fullname: {
-					label: "Full name",
-					name: "fullname",
-					type: "text",
-					value: "",
-					message: ""
-				},
-				phone: {
-					label: "Phone number",
-					name: "phone",
-					type: "text",
-					value: "",
-					message: ""
-				},
-				point: 0
-			}
+			form: initForm()
 		};
 	},
 	computed: {
@@ -103,10 +106,7 @@ export default {
 	},
 	methods: {
 		resetForm() {
-			this.form._id = "";
-			this.form.fullname.value = "";
-			this.form.phone.value = "";
-			this.form.point = 0;
+			this.form = initForm();
 			this.formAdd = true;
 		},
 		fillForm(customer) {
