@@ -100,16 +100,15 @@ export default {
 					length: 10
 				})
 				.then(res => {
-					let { products } = res.data;
+					const { products } = res.data;
 					if (products) {
 						this.products = products.sort((a, b) => (b.status+'').localeCompare(a.status+''));
 						if (products.length === 0) {
-							this.update('message', 'Not found any product')
+							this.update('message', 'Not found any product');
 						}
 					}
 				})
 				.catch(err => {
-					resolve([]);
 					this.handleMessage(err.message);
 				})
 				.then(() => {

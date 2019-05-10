@@ -2,7 +2,7 @@
 	<div class="md-layout md-gutter md-alignment-top-center">
 		<div class="md-layout-item md-large-size-70 md-layout md-gutter">
 			<div class="md-layout-item md-large-size-50">
-				<customer-autocomplete :message="form.customer.message" :customer.sync="form.customer.value" />
+				<customer-autocomplete :message.sync="form.customer.message" :customer.sync="form.customer.value" />
 			</div>
 			<div class="md-layout-item md-large-size-50">
 				<product-autocomplete :message.sync="form.product.message" :product.sync="form.product.value" />
@@ -38,20 +38,20 @@
 								{{ parseMoney(totalPrice) }}
 							</h1>
 						</div>
-						<md-radio v-model="form.payment" value="cash" class="md-primary" :disabled="loading" >
+						<md-radio v-model="form.payment" value="cash" class="md-primary" :disabled="loading">
 							Cash
 						</md-radio>
-						<md-radio v-model="form.payment" value="bank" class="md-primary" :disabled="loading" >
+						<md-radio v-model="form.payment" value="bank" class="md-primary" :disabled="loading">
 							Bank
 						</md-radio>
 					</md-card-content>
 					<div class="md-layout md-alignment-center-space-between">
 						<md-button>VAT Included</md-button>
 						<div class="">
-							<md-button class="" @click="resetForm" :disabled="loading">
+							<md-button class="" :disabled="loading" @click="resetForm">
 								Reset
 							</md-button>
-							<md-button class="md-primary" @click="add" :disabled="loading">
+							<md-button class="md-primary" :disabled="loading" @click="add">
 								Create
 							</md-button>
 						</div>
@@ -59,6 +59,11 @@
 				</md-card>
 			</div>
 		</div>
+		<md-dialog :md-active.sync="billDialog" class="bill-dialog">
+			<md-dialog-content>
+				<bill-paid :bill="billPaid" />
+			</md-dialog-content>
+		</md-dialog>
 	</div>
 </template>
 <style scoped>
@@ -81,6 +86,7 @@ import FieldInput from "@/components/FieldInput";
 import CustomerAutocomplete from "@/components/CustomerAutocomplete";
 import ProductAutocomplete from "@/components/ProductAutocomplete";
 import BillProductList from "@/components/BillProductList";
+import BillPaid from "@/components/BillPaid";
 const initForm = function() {
 	return {
 		customer: {
@@ -110,12 +116,15 @@ export default {
 		'field-input': FieldInput,
 		'customer-autocomplete': CustomerAutocomplete,
 		'product-autocomplete': ProductAutocomplete,
-		'product-list': BillProductList
+		'product-list': BillProductList,
+		'bill-paid': BillPaid
 	},
 	mixins: [HandleMessage, CommonMixin],
 	data() {
 		return {
 			loading: false,
+			billDialog: false,
+			billPaid: {},
 			form: initForm()
 		};
 	},
@@ -157,9 +166,6 @@ export default {
 		}
 	},
 	methods: {
-		log() {
-			console.log(this.$data);
-		},
 		resetForm() {
 			this.form = initForm();
 		},
@@ -178,6 +184,9 @@ export default {
 				.post(this.$api.bill.add, this.getFormData())
 				.then(res => {
 					let { message, bill } = res.data;
+					this.billPaid = bill;
+					this.billDialog = true;
+					this.resetForm();
 					this.handleMessage(message);
 				})
 				.catch(err => {

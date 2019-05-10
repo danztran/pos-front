@@ -2,7 +2,7 @@
 	<div class="md-layout md-gutter md-alignment-top-center">
 		<md-dialog :md-active.sync="billDialog" class="bill-dialog">
 			<md-dialog-content>
-				<bill-form :bill="selected" />
+				<bill-paid :bill="selected" />
 			</md-dialog-content>
 		</md-dialog>
 		<div class="md-layout-item md-large-size-90 md-medium-size-95">
@@ -38,8 +38,8 @@
 						<md-table-cell md-label="Payment" md-sort-by="payment">
 							{{ item.payment }}
 						</md-table-cell>
-						<md-table-cell md-label="Products">
-							{{ item.products.map(e => e.product.name).join(', ') }}
+						<md-table-cell md-label="Products" style="width: 600px;">
+							{{ item.products.map(e => e.product.name).join(' | ') }}
 						</md-table-cell>
 						<md-table-cell md-label="Subpoint" md-sort-by="subpoint">
 							{{ item.subpoint }}
@@ -69,12 +69,12 @@
 import HandleMessage from "@/components/HandleMessage";
 import CommonMixin from "@/components/CommonMixin";
 import TableBotBar from "@/components/TableBotBar";
-import BillForm from "@/components/BillForm";
+import BillPaid from "@/components/BillPaid";
 export default {
 	name: "BillManagement",
 	components: {
 		"table-botbar": TableBotBar,
-		"bill-form": BillForm
+		"bill-paid": BillPaid
 	},
 	mixins: [HandleMessage, CommonMixin],
 	data() {

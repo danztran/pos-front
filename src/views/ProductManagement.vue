@@ -47,6 +47,11 @@
 						</md-table-cell>
 						<md-table-cell md-label="Sale" md-sort-by="sale">
 							{{ item.sale + '%' }}
+							<md-tooltip md-direction="right">
+								{{ getYMDString(item.saleBegin) }}
+								-
+								{{ getYMDString(item.saleEnd) }}
+							</md-tooltip>
 						</md-table-cell>
 					</md-table-row>
 				</md-table>

@@ -8,6 +8,10 @@ export default {
 		},
 		notEmpty(obj) {
 			return Object.keys(obj).length > 0;
+		},
+		getYMDString(str) {
+			const date = new Date(str);
+			return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
 		}
 	}
 };

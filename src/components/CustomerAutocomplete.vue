@@ -44,15 +44,17 @@ export default {
 		},
 		customer: {
 			type: Object,
-			default: () => {}
+			default: () => {
+				value: {}
+			}
 		}
 	},
 	data() {
 		return {
 			loading: false,
 			text: '',
-			customers: [],
 			disabled: false,
+			customers: [],
 			timer: 0
 		};
 	},
@@ -60,8 +62,6 @@ export default {
 		customer(val) {
 			if (this.notEmpty(val)) {
 				this.text = val.fullname;
-			} else {
-				this.text = '';
 			}
 		}
 	},
@@ -87,29 +87,30 @@ export default {
 		},
 		query() {
 			this.loading = true;
-			this.customers = new Promise(resolve => {
-				this.$axios
-					.post(this.$api.customer.query, {
-						text: this.text,
-						order: 'desc',
-						sortField: 'updatedAt',
-						index: 0,
-						length: 10
-					})
-					.then(res => {
-						let { customers } = res.data;
+			this.$axios
+				.post(this.$api.customer.query, {
+					text: this.text,
+					order: 'desc',
+					sortField: 'updatedAt',
+					index: 0,
+					length: 10
+				})
+				.then(res => {
+					const { customers } = res.data;
+					if (customers) {
 						this.customers = customers;
-						if (customers) {
-							resolve(customers);
+						if (customers.length === 0) {
+							this.update('message', 'Not found any customer');
 						}
-					})
-					.catch(err => {
-						this.handleMessage(err.message);
-					})
-					.then(() => {
-						this.loading = false;
-					});
-			});
+					}
+				})
+				.catch(err => {
+					this.handleMessage(err.message);
+				})
+				.then(() => {
+					this.loading = false;
+				});
+
 		}
 	}
 };
