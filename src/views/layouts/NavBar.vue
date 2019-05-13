@@ -21,7 +21,7 @@
 				to="/bills" />
 			<md-tab id="tab-bill" md-label="Create Bill"
 				md-icon="playlist_add"
-				to="/bill" />
+				to="/bill-creator" />
 			<md-tab id="tab-logout" md-label="Log Out"
 				md-icon="call_missed_outgoing"
 				to="/logout" />

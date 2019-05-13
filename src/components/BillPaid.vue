@@ -27,7 +27,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(p, i) in bill.products">
+					<tr v-for="(p, i) in bill.products" :key="p._id">
 						<td>{{ i + 1 }}</td>
 						<td>{{ p.product.name }}</td>
 						<td>{{ parseMoney(p.price) }}</td>
@@ -38,18 +38,18 @@
 				</tbody>
 				<tfoot>
 					<tr v-if="bill.subpoint">
-						<td></td>
-						<td></td>
+						<td />
+						<td />
 						<td><b>Point use:</b></td>
 						<td>{{ bill.subpoint }}</td>
 						<td>reduce: </td>
 						<td>- {{ parseMoney(bill.subpoint) }}</td>
 					</tr>
 					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td />
+						<td />
+						<td />
+						<td />
 						<td>Total:</td>
 						<td>{{ parseMoney(totalPrice()) }}</td>
 					</tr>
@@ -57,7 +57,7 @@
 			</table>
 		</div>
 		<div align="right">
-			<b >Point bonus: </b> <span>+ {{ bill.bonus }}</span>
+			<b>Point bonus: </b> <span>+ {{ bill.bonus }}</span>
 		</div>
 	</div>
 </template>

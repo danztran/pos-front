@@ -24,11 +24,11 @@
 									</span>
 									<span class="sale-pill">
 										<span class="sale-pill_text"> -{{ product.sale }}% </span>
-										 <md-tooltip md-direction="bottom">
-										 	{{ getYMDString(product.saleBegin) }}
-										 	-
-										 	{{ getYMDString(product.saleEnd) }}
-										 </md-tooltip>
+										<md-tooltip md-direction="bottom">
+											{{ getYMDString(product.saleBegin) }}
+											-
+											{{ getYMDString(product.saleEnd) }}
+										</md-tooltip>
 									</span>
 								</span>
 							</div>

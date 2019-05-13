@@ -183,11 +183,12 @@ export default {
 			this.$axios
 				.post(this.$api.bill.add, this.getFormData())
 				.then(res => {
-					let { message, bill } = res.data;
+					const { message, bill, customer } = res.data;
 					this.billPaid = bill;
 					this.billDialog = true;
 					this.resetForm();
 					this.handleMessage(message);
+					this.form.customer.value = customer;
 				})
 				.catch(err => {
 					this.handleMessage(err.message);

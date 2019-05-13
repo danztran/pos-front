@@ -74,7 +74,7 @@ const initForm = function() {
 			label: "Password",
 			name: "password",
 			type: "password",
-			tooltip2: "Current password has been hashed",
+			tooltip2: "Password is not showing",
 			value: "",
 			message: ""
 		},
@@ -115,8 +115,17 @@ export default {
 	},
 	watch: {
 		user: function(newVal, oldVal) {
-			// watch it
 			this.fillForm(newVal);
+		},
+		'form.isAdmin': function(val) {
+			if (val) {
+				this.form.isStaff = true;
+			}
+		},
+		'form.isStaff': function(val) {
+			if (!val) {
+				this.form.isAdmin = false;
+			}
 		}
 	},
 	methods: {
@@ -128,20 +137,22 @@ export default {
 			this.form.fullname.value = user.fullname;
 			this.form.username.value = user.username;
 			this.form.phone.value = user.phone;
-			this.form.password.value = user.password;
 			this.form.isAdmin = user.isAdmin;
 			this.form.isStaff = user.isStaff;
 			this.formAdd = false;
 		},
 		getFormData() {
-			return {
+			const data = {
 				fullname: this.form.fullname.value,
 				username: this.form.username.value,
-				password: this.form.password.value,
 				phone: this.form.phone.value,
 				isAdmin: this.form.isAdmin,
 				isStaff: this.form.isStaff
-			};
+			}
+			if (this.form.password.value) {
+				data['password'] = this.form.password.value;
+			}
+			return data;
 		},
 		handleSubmit() {
 			this.$root.$emit("hideMsg");

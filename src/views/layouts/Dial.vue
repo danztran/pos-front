@@ -11,7 +11,7 @@
 			</md-speed-dial-target>
 
 			<md-speed-dial-content>
-				<md-button class="md-raised md-accent" to="/bill">
+				<md-button class="md-raised md-accent" to="/bill-creator">
 					new Bill
 				</md-button>
 				<md-button class="md-accent" @click="userDialog = true">

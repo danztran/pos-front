@@ -88,8 +88,11 @@ export default {
 				password: this.password.value
 			})
 				.then(res => {
-					this.$cookies.set('user', res.data.user);
-					this.$router.push({ name: 'dashboard' });
+					const { user } = res.data;
+					if (user) {
+						this.$cookies.set('user', res.data.user);
+					}
+					this.$router.push({ name: 'bill-creator' });
 				})
 				.catch(err => {
 					let message = err.message;

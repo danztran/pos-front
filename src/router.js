@@ -82,8 +82,8 @@ const router = new Router({
 							}
 						},
 						{
-							path: "bill",
-							name: "bill",
+							path: "bill-creator",
+							name: "bill-creator",
 							component: BillCreator,
 							meta: {
 								title: "Create Bill",
