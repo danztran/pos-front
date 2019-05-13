@@ -66,19 +66,7 @@
 		</md-dialog>
 	</div>
 </template>
-<style scoped>
-.height-enter-active,
-.height-leave-active {
-	transition: all .3s;
-	max-height: 130px;
-}
-.height-enter,
-.height-leave-to {
-	opacity: 0;
-	max-height: 0;
-	overflow: hidden;
-}
-</style>
+
 <script>
 import HandleMessage from "@/components/HandleMessage";
 import CommonMixin from "@/components/CommonMixin";

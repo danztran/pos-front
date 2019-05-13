@@ -4,10 +4,32 @@
 			<md-card>
 				<md-progress-bar v-visible.hid="loading" md-mode="indeterminate" />
 				<md-card-content class="md-toolbar">
-					<h2>Profile</h2>
+					<h2>Profile: {{ form.username.value }}</h2>
 					<md-switch v-model="formEdit" class="md-primary sw-edit" style="float: right">Edit</md-switch>
 				</md-card-content>
 				<md-card-content>
+					<md-list>
+						<transition name="height">
+							<div v-if="!formEdit">
+								<md-list-item>
+									<div class="md-list-item-text">
+										Join Date:
+									</div>
+									<div class="md-list-item-text">
+										{{ getLocaleDateTime(form.createdAt.value) }}
+									</div>
+								</md-list-item>
+								<md-list-item>
+									<div class="md-list-item-text">
+										Last Edited Date:
+									</div>
+									<div class="md-list-item-text">
+										{{ getLocaleDateTime(form.updatedAt.value) }}
+									</div>
+								</md-list-item>
+							</div>
+						</transition>
+					</md-list>
 					<field-input :field="form.fullname" :disabled="disabledForm" />
 					<field-input :field="form.username" :disabled="true" :tip2="formEdit" />
 					<field-input :field="form.phone" :disabled="disabledForm" />
@@ -38,23 +60,19 @@
 	top: 0;
 	right: 0;
 }
-.height-enter-active,
-.height-leave-active {
-	transition: all .3s;
-	max-height: 130px;
-}
-.height-enter,
-.height-leave-to {
-	opacity: 0;
-	max-height: 0;
-	overflow: hidden;
-}
 </style>
 <script>
 import HandleMessage from "@/components/HandleMessage";
+import CommonMixin from "@/components/CommonMixin";
 import FieldInput from "@/components/FieldInput";
 const initForm = function() {
 	return {
+		createdAt: {
+			value: ""
+		},
+		updatedAt: {
+			value: ""
+		},
 		fullname: {
 			label: "Full name",
 			name: "fullname",
@@ -88,7 +106,7 @@ const initForm = function() {
 			label: "New Password",
 			name: "password",
 			type: "password",
-			helper: "Enter if only you want to change your password",
+			helper: "Enter only if you want to change your password",
 			value: "",
 			message: ""
 		},
@@ -96,7 +114,7 @@ const initForm = function() {
 };
 export default {
 	name: 'UserProfile',
-	mixins: [HandleMessage],
+	mixins: [HandleMessage, CommonMixin],
 	components: {
 		'field-input': FieldInput
 	},

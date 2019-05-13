@@ -7,7 +7,7 @@
 				<md-content>
 					<form @submit.prevent="sendAuth">
 						<md-card-media>
-							<img src="logo.png" alt="">
+							<img src="logo.png" alt="" height="80" width="80">
 						</md-card-media>
 						<md-card-header>
 							<div class="md-title">

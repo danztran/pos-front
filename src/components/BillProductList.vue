@@ -59,15 +59,7 @@
 		</md-card>
 	</div>
 </template>
-<style>
-/*input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    margin: 0;
-}*/
-</style>
+
 <script>
 import CommonMixin from "@/components/CommonMixin";
 export default {

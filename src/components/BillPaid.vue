@@ -7,7 +7,7 @@
 			<b>BILL</b>
 			<p>ID: {{ bill._id }}</p>
 			<p>Staff: {{ bill.user.fullname }}</p>
-			<p>Date: {{ new Date(bill.createdAt).toGMTString() }}</p>
+			<p>Date: {{ getLocaleDateTime(bill.createdAt) }}</p>
 		</div>
 		<div class="info info-customer">
 			<b>CUSTOMER</b>

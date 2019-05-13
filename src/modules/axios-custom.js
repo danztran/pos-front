@@ -10,14 +10,19 @@ axios.interceptors.response.use(
 	response => {
 		return response;
 	},
-	(error) => {
-		if (error.response.status === 401) {
-			if	(cookies.get('user')) {
-				cookies.set('_fm', 'Your session has expired.');
-				cookies.remove('user');
+	error => {
+		if (error.response) {
+			if (error.response.status === 401) {
+				if	(cookies.get('user')) {
+					cookies.set('_fm', 'Your session has expired.');
+					cookies.remove('user');
+				}
+				router.push({ name: "login" });
 			}
-			router.push({ name: "login" });
+		} else {
+			return Promise.reject({message: {'server': 'Server is not responding.'}});
 		}
+
 		return Promise.reject(error.response.data);
 	}
 );

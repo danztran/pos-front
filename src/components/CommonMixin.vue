@@ -12,6 +12,10 @@ export default {
 		getYMDString(str) {
 			const date = new Date(str);
 			return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+		},
+		getLocaleDateTime(str) {
+			const date = new Date(str);
+			return this.getYMDString(str) + ', ' + date.toLocaleTimeString();
 		}
 	}
 };

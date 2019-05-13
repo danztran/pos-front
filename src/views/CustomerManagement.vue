@@ -41,7 +41,7 @@
 							{{ item.point }}
 						</md-table-cell>
 						<md-table-cell md-label="Join date" md-sort-by="createdAt">
-							{{ item.createdAt }}
+							{{ getLocaleDateTime(item.createdAt) }}
 						</md-table-cell>
 					</md-table-row>
 				</md-table>
@@ -57,6 +57,7 @@
 
 <script>
 import HandleMessage from "@/components/HandleMessage";
+import CommonMixin from "@/components/CommonMixin";
 import CustomerForm from "@/components/CustomerForm";
 import TableBotBar from "@/components/TableBotBar";
 export default {
@@ -65,7 +66,7 @@ export default {
 		"customer-form": CustomerForm,
 		"table-botbar": TableBotBar
 	},
-	mixins: [HandleMessage],
+	mixins: [HandleMessage, CommonMixin],
 	data() {
 		return {
 			queryOption: {

@@ -47,6 +47,12 @@
 						</md-table-cell>
 						<md-table-cell md-label="Sale" md-sort-by="sale">
 							{{ item.sale + '%' }}
+							<span v-if="isSale(item)">
+								<md-icon>check_circle</md-icon>
+							</span>
+							<span v-else>
+								<md-icon>highlight_off</md-icon>
+							</span>
 							<md-tooltip md-direction="right">
 								{{ getYMDString(item.saleBegin) }}
 								-
@@ -86,6 +92,7 @@ export default {
 			},
 			timer: null,
 			loading: false,
+			date: new Date(),
 			products: [],
 			selected: {},
 			count: 0
@@ -108,6 +115,14 @@ export default {
 		select(item) {
 			this.selected = item;
 			this.$root.$emit('productSelect', item);
+		},
+		isSale(val) {
+			if (val.sale && val.saleBegin && val.saleEnd) {
+				if (this.date > new Date(val.saleBegin) && this.date < new Date(val.saleEnd)) {
+					return true;
+				}
+			}
+			return false;
 		},
 		searching() {
 			clearTimeout(this.timer);
