@@ -15,6 +15,7 @@ import CustomerManagement from "./views/CustomerManagement";
 import ProductManagement from "./views/ProductManagement";
 import BillManagement from "./views/BillManagement";
 import BillCreator from "./views/BillCreator";
+import UserProfile from "./views/UserProfile";
 
 Vue.use(Router);
 
@@ -55,6 +56,14 @@ const router = new Router({
 							component: Dashboard,
 							meta: {
 								title: "Dashboard",
+							}
+						},
+						{
+							path: "profile",
+							name: "profile",
+							component: UserProfile,
+							meta: {
+								title: "Profile",
 							}
 						},
 						{

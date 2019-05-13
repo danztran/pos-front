@@ -10,7 +10,8 @@ export default {
 	user: {
 		add: h("/user/add"),
 		edit: h("/user/edit"),
-		query: h("/user/query")
+		query: h("/user/query"),
+		selfEdit: h("/user/selfEdit")
 	},
 	customer: {
 		add: h("/customer/add"),

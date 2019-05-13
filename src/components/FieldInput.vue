@@ -24,6 +24,7 @@
 				:maxlength="field.maxlength > 0 ? field.maxlength : null"
 				@input="field.message = ''" />
 			<span v-if="field.suffix" class="md-suffix">{{ field.suffix }}</span>
+			<span class="md-helper-text">{{ field.helper }}</span>
 			<span class="md-error">{{ field.message }}</span>
 		</md-field>
 	</div>

@@ -51,5 +51,10 @@ export default {
 	created() {
 		this.user = this.$cookies.get("user");
 	},
+	mounted() {
+		this.$root.$on("selfEdit", user => {
+			this.user = user;
+		});
+	},
 };
 </script>

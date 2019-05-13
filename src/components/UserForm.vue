@@ -14,8 +14,8 @@
 				<md-card-content>
 					<field-input :field="form.fullname" :disabled="loading" />
 					<field-input :field="form.username" :disabled="loading || formEdit" :tip2="formEdit" />
-					<field-input :field="form.password" :disabled="loading" :tip2="formEdit" />
 					<field-input :field="form.phone" :disabled="loading" />
+					<field-input :field="form.password" :disabled="loading" :tip2="formEdit" />
 
 					<md-checkbox v-model="form.isAdmin" class="md-primary"
 						:disabled="loading">

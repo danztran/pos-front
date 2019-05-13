@@ -31,7 +31,11 @@
 						<td>{{ i + 1 }}</td>
 						<td>{{ p.product.name }}</td>
 						<td>{{ parseMoney(p.price) }}</td>
-						<td>- {{ p.sale }}%</td>
+						<td>
+							<div v-if="p.sale">
+								- {{ p.sale }}%
+							</div>
+						</td>
 						<td>×{{ p.quantity }}</td>
 						<td>{{ parseMoney(subtotal(p)) }}</td>
 					</tr>

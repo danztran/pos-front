@@ -26,9 +26,9 @@
 							<field-date :field="form.saleEnd" :disabled="loading" />
 						</div>
 						<div class="md-layout-item" style="margin-top: 0">
-							<md-checkbox v-model="form.status.value" class="md-primary">
+							<md-switch v-model="form.status.value" class="md-primary">
 								{{ form.status.label }}
-							</md-checkbox>
+							</md-switch>
 						</div>
 					</div>
 				</md-card-content>

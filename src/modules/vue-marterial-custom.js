@@ -21,7 +21,8 @@ const components = [
 	"MdAutocomplete",
 	"MdSubheader",
 	"MdDivider",
-	"MdToolbar"
+	"MdToolbar",
+	"MdSwitch"
 ].map(e => require("vue-material/dist/components")[e]);
 
 export default {
