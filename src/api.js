@@ -26,5 +26,8 @@ export default {
 	bill: {
 		add: h("/bill/add"),
 		query: h("/bill/query")
+	},
+	activityLog: {
+		query: h("/activity-log/query")
 	}
 };

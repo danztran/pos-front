@@ -5,7 +5,9 @@
 				<md-progress-bar v-visible.hid="loading" md-mode="indeterminate" />
 				<md-card-content class="md-toolbar">
 					<h2>Profile: {{ form.username.value }}</h2>
-					<md-switch v-model="formEdit" class="md-primary sw-edit" style="float: right">Edit</md-switch>
+					<md-switch v-model="formEdit" class="md-primary sw-edit" style="float: right">
+						Edit
+					</md-switch>
 				</md-card-content>
 				<md-card-content>
 					<md-list>
@@ -30,8 +32,8 @@
 							</div>
 						</transition>
 					</md-list>
-					<field-input :field="form.fullname" :disabled="disabledForm" />
 					<field-input :field="form.username" :disabled="true" :tip2="formEdit" />
+					<field-input :field="form.fullname" :disabled="disabledForm" />
 					<field-input :field="form.phone" :disabled="disabledForm" />
 					<transition name="height">
 						<div v-if="formEdit">
@@ -59,6 +61,9 @@
 	position: absolute;
 	top: 0;
 	right: 0;
+}
+.md-card-content, ul {
+	padding-top: 0;
 }
 </style>
 <script>
@@ -114,10 +119,10 @@ const initForm = function() {
 };
 export default {
 	name: 'UserProfile',
-	mixins: [HandleMessage, CommonMixin],
 	components: {
 		'field-input': FieldInput
 	},
+	mixins: [HandleMessage, CommonMixin],
 	data() {
 		return {
 			loading: false,
@@ -125,8 +130,10 @@ export default {
 			form: initForm()
 		}
 	},
-	created() {
-		this.resetForm();
+	computed: {
+		disabledForm() {
+			return this.loading || !this.formEdit;
+		}
 	},
 	watch: {
 		formEdit(val) {
@@ -135,10 +142,8 @@ export default {
 			}
 		}
 	},
-	computed: {
-		disabledForm() {
-			return this.loading || !this.formEdit;
-		}
+	created() {
+		this.resetForm();
 	},
 	methods: {
 		resetForm() {

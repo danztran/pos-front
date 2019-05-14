@@ -16,6 +16,7 @@ import ProductManagement from "./views/ProductManagement";
 import BillManagement from "./views/BillManagement";
 import BillCreator from "./views/BillCreator";
 import UserProfile from "./views/UserProfile";
+import ActivityLog from "./views/ActivityLog";
 
 Vue.use(Router);
 
@@ -104,6 +105,14 @@ const router = new Router({
 							component: BillManagement,
 							meta: {
 								title: "Bill Management",
+							}
+						},
+						{
+							path: "activity-logs",
+							name: "activity-logs",
+							component: ActivityLog,
+							meta: {
+								title: "Activity Log",
 							}
 						}
 					]

@@ -1,13 +1,15 @@
 <template>
 	<div class="navbar">
 		<md-tabs class="md-primary" md-alignment="centered" md-sync-route>
-			<md-tab id="tab-home" md-label="Dashboard"
+			<md-tab v-if="user.sysAdmin" id="tab-home"
+				md-label="Dashboard"
 				md-icon="home"
 				to="/dashboard" />
 			<md-tab id="tab-profile" :md-label="user.fullname"
 				md-icon="account_circle"
 				to="/profile" />
-			<md-tab id="tab-users" md-label="Users"
+			<md-tab v-if="user.isAdmin" id="tab-users"
+				md-label="Users"
 				md-icon="supervisor_account"
 				to="/users" />
 			<md-tab id="tab-customers" md-label="Customers"
@@ -22,6 +24,10 @@
 			<md-tab id="tab-bill" md-label="Create Bill"
 				md-icon="playlist_add"
 				to="/bill-creator" />
+			<md-tab v-if="user.sysAdmin" id="tab-activity-log"
+				md-label="Activity Log"
+				md-icon="assignment"
+				to="/activity-logs" />
 			<md-tab id="tab-logout" md-label="Log Out"
 				md-icon="call_missed_outgoing"
 				to="/logout" />

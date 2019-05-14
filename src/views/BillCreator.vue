@@ -2,10 +2,10 @@
 	<div class="md-layout md-gutter md-alignment-top-center">
 		<div class="md-layout-item md-large-size-70 md-layout md-gutter">
 			<div class="md-layout-item md-large-size-50">
-				<customer-autocomplete :message.sync="form.customer.message" :customer.sync="form.customer.value" />
+				<product-autocomplete :message.sync="form.product.message" :product.sync="form.product.value" />
 			</div>
 			<div class="md-layout-item md-large-size-50">
-				<product-autocomplete :message.sync="form.product.message" :product.sync="form.product.value" />
+				<customer-autocomplete :message.sync="form.customer.message" :customer.sync="form.customer.value" />
 			</div>
 			<div class="md-layout-item md-large-size-100">
 				<product-list :products.sync="form.products" />
