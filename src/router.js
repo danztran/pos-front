@@ -1,122 +1,116 @@
-import Vue from "vue";
-import Router from "vue-router";
+import Router from 'vue-router';
 
-import axios from "./modules/axios-custom";
-import cookies from "vue-cookies";
+import authMdw from './middlewares/auth-middleware';
 
-import authMdw from "./middlewares/auth-middleware";
-
-import Page from "./views/layouts/Page";
-import Login from "./views/Login";
-import DashboardLayout from "./views/layouts/DashboardLayout";
-import Dashboard from "./views/Dashboard";
-import UserManagement from "./views/UserManagement";
-import CustomerManagement from "./views/CustomerManagement";
-import ProductManagement from "./views/ProductManagement";
-import BillManagement from "./views/BillManagement";
-import BillCreator from "./views/BillCreator";
-import UserProfile from "./views/UserProfile";
-import ActivityLog from "./views/ActivityLog";
-
-Vue.use(Router);
+import Page from './views/layouts/Page';
+import Login from './views/Login';
+import DashboardLayout from './views/layouts/DashboardLayout';
+import Dashboard from './views/Dashboard';
+import UserManagement from './views/UserManagement';
+import CustomerManagement from './views/CustomerManagement';
+import ProductManagement from './views/ProductManagement';
+import BillManagement from './views/BillManagement';
+import BillCreator from './views/BillCreator';
+import UserProfile from './views/UserProfile';
+import ActivityLog from './views/ActivityLog';
 
 const router = new Router({
-	mode: "history",
+	mode: 'history',
 	base: process.env.BASE_URL,
 	routes: [
 		{
-			path: "/",
+			path: '/',
 			component: Page,
 			children: [
 				{
-					path: "/login",
-					name: "login",
+					path: '/login',
+					name: 'login',
 					component: Login,
 					meta: {
-						title: "Login",
+						title: 'Login',
 						middleware: authMdw.logout
 					}
 				},
 				{
-					path: "/logout",
-					name: "logout",
-					redirect: "/login",
+					path: '/logout',
+					name: 'logout',
+					redirect: '/login',
 					meta: {
-						title: "Logout"
+						title: 'Logout'
 					}
 				},
 				{
-					path: "/",
+					path: '/',
 					component: DashboardLayout,
 					beforeEnter: authMdw.guard,
-					redirect: "/dashboard",
+					redirect: '/dashboard',
 					children: [
 						{
-							path: "dashboard",
-							name: "dashboard",
+							path: 'dashboard',
+							name: 'dashboard',
 							component: Dashboard,
 							meta: {
-								title: "Dashboard",
+								title: 'Dashboard'
 							}
 						},
 						{
-							path: "profile",
-							name: "profile",
+							path: 'profile',
+							name: 'profile',
 							component: UserProfile,
 							meta: {
-								title: "Profile",
+								title: 'Profile'
 							}
 						},
 						{
-							path: "users",
-							name: "users",
+							path: 'users',
+							name: 'users',
 							component: UserManagement,
 							meta: {
-								title: "User Management",
+								title: 'User Management'
 							}
 						},
 						{
-							path: "customers",
-							name: "customers",
+							path: 'customers',
+							name: 'customers',
 							component: CustomerManagement,
 							meta: {
-								title: "Customer Management",
+								title: 'Customer Management'
 							}
 						},
 						{
-							path: "products",
-							name: "products",
+							path: 'products',
+							name: 'products',
 							component: ProductManagement,
 							meta: {
-								title: "Product Management",
+								title: 'Product Management'
 							}
 						},
 						{
-							path: "bill-creator",
-							name: "bill-creator",
+							path: 'bill-creator',
+							name: 'bill-creator',
 							component: BillCreator,
 							meta: {
-								title: "Create Bill",
+								title: 'Create Bill'
 							}
 						},
 						{
-							path: "bills",
-							name: "bills",
+							path: 'bills',
+							name: 'bills',
 							component: BillManagement,
 							meta: {
-								title: "Bill Management",
+								title: 'Bill Management'
 							}
 						},
 						{
-							path: "activity-logs",
-							name: "activity-logs",
+							path: 'activity-logs',
+							name: 'activity-logs',
 							component: ActivityLog,
 							meta: {
-								title: "Activity Log",
+								title: 'Activity Log'
 							}
 						}
 					]
-				},
+				}
 			]
 		}
 	]
@@ -163,7 +157,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from) => {
 	// Vue.nextTick( () => {
-	document.title = (to.meta.title || " ") +  " | POS Branch";
+	document.title = `${to.meta.title || ' '} | POS Branch`;
 	// });
 });
 

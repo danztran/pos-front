@@ -50,38 +50,39 @@
 </template>
 
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import FieldInput from "@/components/FieldInput";
+import HandleMessage from '@/components/HandleMessage';
+import FieldInput from '@/components/FieldInput';
+
 const initForm = function() {
 	return {
-		_id: "",
+		_id: '',
 		fullname: {
-			label: "Full name",
-			name: "fullname",
-			type: "text",
-			value: "",
-			message: ""
+			label: 'Full name',
+			name: 'fullname',
+			type: 'text',
+			value: '',
+			message: ''
 		},
 		phone: {
-			label: "Phone number",
-			name: "phone",
-			type: "text",
-			value: "",
-			message: ""
+			label: 'Phone number',
+			name: 'phone',
+			type: 'text',
+			value: '',
+			message: ''
 		},
 		point: 0
-	}
-}
+	};
+};
 export default {
-	name: "CustomerForm",
+	name: 'CustomerForm',
 	components: {
-		"field-input": FieldInput
+		'field-input': FieldInput
 	},
 	mixins: [HandleMessage],
 	props: {
 		customer: {
 			type: Object,
-			default () {
+			default() {
 				return {};
 			}
 		}
@@ -117,7 +118,7 @@ export default {
 			this.formAdd = false;
 		},
 		getFormData() {
-			let formData = {
+			const formData = {
 				fullname: this.form.fullname.value,
 				phone: this.form.phone.value
 			};
@@ -127,25 +128,26 @@ export default {
 			return formData;
 		},
 		handleSubmit() {
-			this.$root.$emit("hideMsg");
+			this.$root.$emit('hideMsg');
 			this.loading = true;
 			if (this.formAdd) {
 				this.add();
-			} else {
+			}
+			else {
 				this.edit();
 			}
 		},
 		add() {
 			this.$axios
 				.post(this.$api.customer.add, this.getFormData())
-				.then(res => {
-					let { message, customer } = res.data;
+				.then((res) => {
+					const { message, customer } = res.data;
 					if (customer) {
-						this.$root.$emit("customerAdded", customer);
+						this.$root.$emit('customerAdded', customer);
 					}
 					this.handleMessage(message);
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
@@ -155,14 +157,14 @@ export default {
 		edit() {
 			this.$axios
 				.post(this.$api.customer.edit, this.getFormData())
-				.then(res => {
-					let { message, customer } = res.data;
+				.then((res) => {
+					const { message, customer } = res.data;
 					if (customer) {
-						this.$root.$emit("customerEdited", customer);
+						this.$root.$emit('customerEdited', customer);
 					}
 					this.handleMessage(message);
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {

@@ -40,10 +40,10 @@
 							{{ item.quantity }}
 						</md-table-cell>
 						<md-table-cell md-label="Origin Price" md-sort-by="origin">
-							{{ parseMoney(item.origin) }}
+							{{ _cm.parseMoney(item.origin) }}
 						</md-table-cell>
 						<md-table-cell md-label="Price" md-sort-by="price">
-							{{ parseMoney(item.price) }}
+							{{ _cm.parseMoney(item.price) }}
 						</md-table-cell>
 						<md-table-cell md-label="Sale" md-sort-by="sale">
 							{{ item.sale + '%' }}
@@ -54,9 +54,9 @@
 								<md-icon>highlight_off</md-icon>
 							</span>
 							<md-tooltip md-direction="right">
-								{{ getYMDString(item.saleBegin) }}
+								{{ _cm.getDate(item.saleBegin) }}
 								-
-								{{ getYMDString(item.saleEnd) }}
+								{{ _cm.getDate(item.saleEnd) }}
 							</md-tooltip>
 						</md-table-cell>
 					</md-table-row>
@@ -72,23 +72,23 @@
 </template>
 
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import CommonMixin from "@/components/CommonMixin";
-import TableBotBar from "@/components/TableBotBar";
+import HandleMessage from '@/components/HandleMessage';
+import TableBotBar from '@/components/TableBotBar';
+
 export default {
-	name: "ProductManagement",
+	name: 'ProductManagement',
 	components: {
-		"table-botbar": TableBotBar
+		'table-botbar': TableBotBar
 	},
-	mixins: [HandleMessage, CommonMixin],
+	mixins: [HandleMessage],
 	data() {
 		return {
 			queryOption: {
 				length: 10,
 				index: 0,
-				sortField: "updatedAt",
-				order: "desc",
-				text: ""
+				sortField: 'updatedAt',
+				order: 'desc',
+				text: ''
 			},
 			timer: null,
 			loading: false,
@@ -96,19 +96,17 @@ export default {
 			products: [],
 			selected: {},
 			count: 0
-		}
+		};
 	},
 	created() {
 		this.query();
 	},
 	mounted() {
-		this.$root.$on("productAdded", product => {
+		this.$root.$on('productAdded', (product) => {
 			this.products.unshift(product);
 		});
-		this.$root.$on("productEdited", product => {
-			this.products = this.products.map(e =>
-				e.code == product.code ? product : e
-			);
+		this.$root.$on('productEdited', (product) => {
+			this.products = this.products.map(e => (e.code == product.code ? product : e));
 		});
 	},
 	methods: {
@@ -145,15 +143,16 @@ export default {
 
 			this.$axios
 				.post(this.$api.product.query, this.queryOption)
-				.then(res => {
-					let { products, count } = res.data;
+				.then((res) => {
+					const { products, count } = res.data;
 					if (count !== undefined) {
 						this.count = count;
 					}
 					if (products) {
 						if (more) {
 							this.products = [...this.products, ...products];
-						} else {
+						}
+						else {
 							this.products = products;
 						}
 						this.queryOption.index = this.products.length;
@@ -162,7 +161,7 @@ export default {
 						// }
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {

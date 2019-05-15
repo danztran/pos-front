@@ -25,10 +25,10 @@
 
 <script>
 export default {
-	name: "Notify",
+	name: 'Notify',
 	data() {
 		return {
-			message: "",
+			message: '',
 			show: false
 		};
 	},
@@ -38,11 +38,11 @@ export default {
 		}
 	},
 	mounted() {
-		this.$root.$on("showMsg", message => {
+		this.$root.$on('showMsg', (message) => {
 			this.message = message;
 			this.show = true;
 		});
-		this.$root.$on("hideMsg", () => {
+		this.$root.$on('hideMsg', () => {
 			this.show = false;
 		});
 	}

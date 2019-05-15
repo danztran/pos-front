@@ -79,26 +79,27 @@
 </style>
 
 <script>
-import UserForm from "@/components/UserForm";
-import CustomerForm from "@/components/CustomerForm";
-import ProductForm from "@/components/ProductForm";
+import UserForm from '@/components/UserForm';
+import CustomerForm from '@/components/CustomerForm';
+import ProductForm from '@/components/ProductForm';
+
 export default {
-	name: "Dials",
+	name: 'Dials',
 	components: {
-		"user-form": UserForm,
-		"customer-form": CustomerForm,
-		"product-form": ProductForm,
+		'user-form': UserForm,
+		'customer-form': CustomerForm,
+		'product-form': ProductForm
 	},
 	data() {
 		return {
 			userDialog: false,
 			customerDialog: false,
 			productDialog: false,
-			product: {},
+			product: {}
 		};
 	},
 	mounted() {
-		this.$root.$on("productSelect", product => {
+		this.$root.$on('productSelect', (product) => {
 			this.product = product;
 			this.productDialog = true;
 		});

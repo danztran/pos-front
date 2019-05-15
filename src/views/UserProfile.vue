@@ -18,7 +18,7 @@
 										Join Date:
 									</div>
 									<div class="md-list-item-text">
-										{{ getLocaleDateTime(form.createdAt.value) }}
+										{{ _cm.getDateTime(form.createdAt.value) }}
 									</div>
 								</md-list-item>
 								<md-list-item>
@@ -26,7 +26,7 @@
 										Last Edited Date:
 									</div>
 									<div class="md-list-item-text">
-										{{ getLocaleDateTime(form.updatedAt.value) }}
+										{{ _cm.getDateTime(form.updatedAt.value) }}
 									</div>
 								</md-list-item>
 							</div>
@@ -67,68 +67,68 @@
 }
 </style>
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import CommonMixin from "@/components/CommonMixin";
-import FieldInput from "@/components/FieldInput";
+import HandleMessage from '@/components/HandleMessage';
+import FieldInput from '@/components/FieldInput';
+
 const initForm = function() {
 	return {
 		createdAt: {
-			value: ""
+			value: ''
 		},
 		updatedAt: {
-			value: ""
+			value: ''
 		},
 		fullname: {
-			label: "Full name",
-			name: "fullname",
-			type: "text",
-			value: "",
-			message: ""
+			label: 'Full name',
+			name: 'fullname',
+			type: 'text',
+			value: '',
+			message: ''
 		},
 		username: {
-			label: "Username",
-			name: "username",
-			type: "text",
-			tooltip2: "Username can not be edited",
-			value: "",
-			message: ""
+			label: 'Username',
+			name: 'username',
+			type: 'text',
+			tooltip2: 'Username can not be edited',
+			value: '',
+			message: ''
 		},
 		phone: {
-			label: "Phone number",
-			name: "phone",
-			type: "text",
-			value: "",
-			message: ""
+			label: 'Phone number',
+			name: 'phone',
+			type: 'text',
+			value: '',
+			message: ''
 		},
 		curpassword: {
-			label: "Current Password",
-			name: "curpassword",
-			type: "password",
-			value: "",
-			message: ""
+			label: 'Current Password',
+			name: 'curpassword',
+			type: 'password',
+			value: '',
+			message: ''
 		},
 		password: {
-			label: "New Password",
-			name: "password",
-			type: "password",
-			helper: "Enter only if you want to change your password",
-			value: "",
-			message: ""
-		},
-	}
+			label: 'New Password',
+			name: 'password',
+			type: 'password',
+			helper: 'Enter only if you want to change your password',
+			value: '',
+			message: ''
+		}
+	};
 };
 export default {
 	name: 'UserProfile',
 	components: {
 		'field-input': FieldInput
 	},
-	mixins: [HandleMessage, CommonMixin],
+	mixins: [HandleMessage],
 	data() {
 		return {
 			loading: false,
 			formEdit: false,
 			form: initForm()
-		}
+		};
 	},
 	computed: {
 		disabledForm() {
@@ -148,11 +148,11 @@ export default {
 	methods: {
 		resetForm() {
 			initForm();
-			this.fillForm(this.$cookies.get("user"));
+			this.fillForm(this.$cookies.get('user'));
 		},
 		fillForm(item) {
-			for (let key in this.form) {
-				if (this.form[key].hasOwnProperty("value")) {
+			for (const key in this.form) {
+				if (this.form[key].hasOwnProperty('value')) {
 					this.form[key].value = item[key];
 				}
 			}
@@ -168,20 +168,20 @@ export default {
 			}
 			return data;
 		},
-		edit(item) {
+		edit() {
 			this.loading = true;
 			this.$axios
 				.post(this.$api.user.selfEdit, this.getFormData())
-				.then(res => {
+				.then((res) => {
 					const { message, user } = res.data;
 					if (user) {
-						this.$cookies.set("user", user);
-						this.$root.$emit("selfEdit", user);
+						this.$cookies.set('user', user);
+						this.$root.$emit('selfEdit', user);
 						this.resetForm();
 					}
 					this.handleMessage(message);
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
@@ -189,5 +189,5 @@ export default {
 				});
 		}
 	}
-}
+};
 </script>

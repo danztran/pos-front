@@ -67,75 +67,76 @@
 </style>
 
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import FieldInput from "@/components/FieldInput";
-import FieldDate from "@/components/FieldDate";
+import HandleMessage from '@/components/HandleMessage';
+import FieldInput from '@/components/FieldInput';
+import FieldDate from '@/components/FieldDate';
+
 const initForm = function() {
 	return {
 		status: {
-			label: "Available",
-			value: true,
+			label: 'Available',
+			value: true
 		},
 		saleBegin: {
-			label: "Sale Begin",
+			label: 'Sale Begin',
 			value: null,
-			message: ""
+			message: ''
 		},
 		saleEnd: {
-			label: "Sale End",
+			label: 'Sale End',
 			value: null,
-			message: ""
+			message: ''
 		},
 		name: {
-			label: "Name",
-			name: "name",
-			type: "text",
-			value: "",
-			message: ""
+			label: 'Name',
+			name: 'name',
+			type: 'text',
+			value: '',
+			message: ''
 		},
 		code: {
-			label: "Code",
-			name: "code",
-			type: "text",
-			value: "",
+			label: 'Code',
+			name: 'code',
+			type: 'text',
+			value: '',
 			maxlength: 6,
-			message: ""
+			message: ''
 		},
 		origin: {
-			label: "Origin Price",
-			name: "origin",
-			type: "number",
+			label: 'Origin Price',
+			name: 'origin',
+			type: 'number',
 			value: 0,
-			message: "",
-			prefix: "$"
+			message: '',
+			prefix: '$'
 		},
 		price: {
-			label: "Price",
-			name: "price",
-			type: "number",
+			label: 'Price',
+			name: 'price',
+			type: 'number',
 			value: 0,
-			message: "",
-			prefix: "$"
+			message: '',
+			prefix: '$'
 		},
 		sale: {
-			label: "Sale",
-			name: "sale",
-			type: "number",
-			value: "",
-			message: "",
-			prefix: "%"
+			label: 'Sale',
+			name: 'sale',
+			type: 'number',
+			value: '',
+			message: '',
+			prefix: '%'
 		},
 		quantity: {
-			label: "Quantity",
-			name: "quantity",
-			type: "number",
-			value: "",
-			message: ""
-		},
-	}
-}
+			label: 'Quantity',
+			name: 'quantity',
+			type: 'number',
+			value: '',
+			message: ''
+		}
+	};
+};
 export default {
-	name: "ProductForm",
+	name: 'ProductForm',
 	components: {
 		'field-input': FieldInput,
 		'field-date': FieldDate
@@ -144,7 +145,7 @@ export default {
 	props: {
 		product: {
 			type: Object,
-			default () {
+			default() {
 				return {};
 			}
 		}
@@ -169,61 +170,62 @@ export default {
 	},
 	methods: {
 		clearAllMessages() {
-			for (let key in this.form) {
-				if (this.form[key].hasOwnProperty("message")) {
-					this.form[key].message = "";
+			for (const key in this.form) {
+				if (this.form[key].hasOwnProperty('message')) {
+					this.form[key].message = '';
 				}
 			}
 		},
 		resetForm() {
 			this.clearAllMessages();
-			this.form.name.value = "";
-			this.form.code.value = "";
+			this.form.name.value = '';
+			this.form.code.value = '';
 			this.form.origin.value = 0;
 			this.form.price.value = 0;
-			this.form.sale.value = "";
+			this.form.sale.value = '';
 			this.form.saleBegin.value = new Date();
 			this.form.saleEnd.value = new Date();
-			this.form.quantity.value = "";
+			this.form.quantity.value = '';
 			this.form.status.value = true;
 			this.formAdd = true;
 		},
 		fillForm(item) {
-			for (let key in this.form) {
-				if (this.form[key].hasOwnProperty("value")) {
+			for (const key in this.form) {
+				if (this.form[key].hasOwnProperty('value')) {
 					this.form[key].value = item[key];
 				}
 			}
 		},
 		getFormData() {
 			const formData = {};
-			for (let key in this.form) {
-				if (this.form[key].hasOwnProperty("value")) {
+			for (const key in this.form) {
+				if (this.form[key].hasOwnProperty('value')) {
 					formData[key] = this.form[key].value;
 				}
 			}
 			return formData;
 		},
 		handleSubmit() {
-			this.$root.$emit("hideMsg");
+			this.$root.$emit('hideMsg');
 			this.loading = true;
 			if (this.formAdd) {
 				this.add();
-			} else {
+			}
+			else {
 				this.edit();
 			}
 		},
 		add() {
 			this.$axios
 				.post(this.$api.product.add, this.getFormData())
-				.then(res => {
-					let { message, product } = res.data;
+				.then((res) => {
+					const { message, product } = res.data;
 					if (product) {
-						this.$root.$emit("productAdded", product);
+						this.$root.$emit('productAdded', product);
 					}
 					this.handleMessage(message);
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
@@ -233,14 +235,14 @@ export default {
 		edit() {
 			this.$axios
 				.post(this.$api.product.edit, this.getFormData())
-				.then(res => {
-					let { message, product } = res.data;
+				.then((res) => {
+					const { message, product } = res.data;
 					if (product) {
-						this.$root.$emit("productEdited", product);
+						this.$root.$emit('productEdited', product);
 					}
 					this.handleMessage(message);
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {

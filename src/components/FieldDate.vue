@@ -13,27 +13,27 @@
 
 <script>
 export default {
-	name: "FieldInput",
+	name: 'FieldInput',
 	props: {
 		field: {
 			type: Object,
 			default() {
 				return {
-					label: "",
-					value: "",
-					message: "",
-				}
+					label: '',
+					value: '',
+					message: ''
+				};
 			}
 		},
 		disabled: {
 			type: Boolean,
 			default: false
-		},
+		}
 	},
 	methods: {
 		clearMsg() {
-			this.field.message = "";
+			this.field.message = '';
 		}
 	}
-}
+};
 </script>

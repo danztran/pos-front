@@ -32,20 +32,20 @@
 }
 </style>
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import CommonMixin from "@/components/CommonMixin";
+import HandleMessage from '@/components/HandleMessage';
+
 export default {
-	name: "CustomerAutocomplete",
-	mixins: [HandleMessage, CommonMixin],
+	name: 'CustomerAutocomplete',
+	mixins: [HandleMessage],
 	props: {
 		message: {
 			type: String,
-			default: ""
+			default: ''
 		},
 		customer: {
 			type: Object,
 			default: () => {
-				value: {}
+				{}
 			}
 		}
 	},
@@ -60,14 +60,14 @@ export default {
 	},
 	watch: {
 		customer(val) {
-			if (this.notEmpty(val)) {
+			if (this._cm.notEmpty(val)) {
 				this.text = val.fullname;
 			}
 		}
 	},
 	methods: {
 		update(prop, data) {
-			this.$emit('update:' + prop, data);
+			this.$emit(`update:${prop}`, data);
 		},
 		select(item) {
 			this.disabled = true;
@@ -81,7 +81,8 @@ export default {
 				if (this.text !== '') {
 					this.timer = setTimeout(this.query, 500);
 				}
-			} else {
+			}
+			else {
 				this.disabled = false;
 			}
 		},
@@ -95,7 +96,7 @@ export default {
 					index: 0,
 					length: 10
 				})
-				.then(res => {
+				.then((res) => {
 					const { customers } = res.data;
 					if (customers) {
 						this.customers = customers;
@@ -104,13 +105,12 @@ export default {
 						}
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
 					this.loading = false;
 				});
-
 		}
 	}
 };

@@ -1,6 +1,6 @@
 <template>
 	<div class="md-layout md-gutter md-alignment-top-center">
-		<div class="md-layout-item md-large-size-50 md-medium-size-70 md-small-size-100">
+		<div class="md-layout-item md-large-size-60 md-medium-size-70 md-small-size-100">
 			<md-card>
 				<md-progress-bar v-visible.hid="loading" md-mode="query" />
 				<md-switch v-model="autoUpdate" class="md-primary sw-title">
@@ -9,48 +9,67 @@
 				<div class="text-center">
 					<h2>ACTIVITY LOG</h2>
 				</div>
-				<ul is="transition-group" name="height" mode="out-in">
-					<li v-for="log of aclogs" :key="log._id">
-						<p class="text">
-							{{ log.action }} - <span class="text-normal">{{ getLogNote(log) }}</span>
-						</p>
-					</li>
-				</ul>
+				<table>
+					<tbody is="transition-group" tag="tbody" name="rowfly" mode="out-in">
+						<tr v-for="log of aclogs" :key="log._id">
+							<td>{{ _cm.getTime(log.createdAt) }}</td>
+							<td>
+								<p class="text">
+									{{ log.action }} —
+									<span class="text-normal">{{ getLogNote(log) }}</span>
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</md-card>
 		</div>
 	</div>
 </template>
 <style lang="scss" scoped>
+.rowfly-leave-active {
+	position: absolute;
+	opacity: 0;
+}
+.rowfly-enter, .rowfly-leave-to {
+	opacity: 0;
+	transform: translateY(-10px);
+}
 .sw-title {
 	position: absolute;
 	top: 0;
 	right: 0;
 }
-ul {
-	height: 550px;
+table {
+	width: 100%;
 	padding: 5px 20px 20px 20px;
-	li {
-		margin: 8px;
-		padding: 3px;
-		list-style: none;
-		background-color: rgba(0,0,0,.08);
-		&:hover {
-			background-color: rgba(0,0,0,.15);
-		}
-		p.text {
-			margin: 5px;
-			font-size: 15px;
-			font-weight: bold;
+	tbody {
+		tr {
+			transition: all .4s;
+			padding: 3px;
+			td {
+				margin: 8px;
+				padding: 3px;
+				background-color: rgba(0,0,0,.07);
+				p.text {
+					margin: 5px;
+					font-size: 15px;
+					font-weight: bold;
+				}
+			}
+			&:hover {
+				background-color: rgba(0,0,0,.15);
+			}
 		}
 	}
 }
 </style>
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import CommonMixin from "@/components/CommonMixin";
+import HandleMessage from '@/components/HandleMessage';
+
 export default {
-	name: "ActivityLog",
-	mixins: [CommonMixin, HandleMessage],
+	name: 'ActivityLog',
+	mixins: [HandleMessage],
 	data() {
 		return {
 			loading: false,
@@ -65,7 +84,7 @@ export default {
 			timer: null,
 			delay: 5000,
 			aclogs: []
-		}
+		};
 	},
 	watch: {
 		autoUpdate(val) {
@@ -74,7 +93,8 @@ export default {
 				this.timer = setInterval(() => {
 					this.query();
 				}, this.delay);
-			} else {
+			}
+			else {
 				clearInterval(this.timer);
 			}
 		}
@@ -88,22 +108,22 @@ export default {
 	},
 	methods: {
 		getLogNote(log) {
-			return this.replaceVars(log.note, {
+			return this._cm.replaceVars(log.note, {
 				actor: log.actor.fullname,
-				target: log.target.fullname || log.target.name || log.target.username || log.target._id,
+				target: log.target.fullname || log.target.name || log.target.username || log.target._id
 			});
 		},
 		query() {
 			this.loading = true;
 			this.$axios
 				.post(this.$api.activityLog.query, this.queryOption)
-				.then(res => {
-					let { aclogs } = res.data;
+				.then((res) => {
+					const { aclogs } = res.data;
 					if (aclogs) {
-						this.aclogs = this.uniqBy('_id', [...aclogs, ...this.aclogs]);
+						this.aclogs = this._cm.uniqBy('_id', [...aclogs, ...this.aclogs]);
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.autoUpdate = false;
 					this.handleMessage(err.message);
 				})
@@ -112,5 +132,5 @@ export default {
 				});
 		}
 	}
-}
+};
 </script>

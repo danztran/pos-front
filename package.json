@@ -31,7 +31,9 @@
 	"eslintConfig": {
 		"root": true,
 		"env": {
-			"node": true
+			"node": true,
+			"es6": true,
+			"browser": true
 		},
 		"extends": [
 			"plugin:vue/essential",
@@ -39,22 +41,71 @@
 			"plugin:vue/recommended"
 		],
 		"rules": {
-			"indent": ["error", "tab"],
-			"vue/html-indent": ["error", "tab"],
-			"vue/script-indent": ["error", "tab"],
-			"vue/html-closing-bracket-newline": ["error"],
-			"vue/max-attributes-per-line": ["error", {
-				"singleline": 4,
-				"multiline": {
-					"max": 2,
-					"allowFirstLine": true
+			"indent": [
+				"error",
+				"tab",
+				{
+					"SwitchCase": 1
 				}
-			}],
-			"vue/html-closing-bracket-newline": ["error", {
-				"singleline": "never",
-				"multiline": "never"
-			}],
-			"vue/no-duplicate-attributes": ["allow"]
+			],
+			"brace-style": [
+				"error",
+				"stroustrup"
+			],
+			"eol-last": [
+				"error",
+				"always"
+			],
+			"semi": [
+				1,
+				"always"
+			],
+			"space-before-function-paren": [
+				"error",
+				"never"
+			],
+			"comma-dangle": [
+				"error",
+				"never"
+			],
+			"no-unused-vars": [
+				"error",
+				{ "args": "none" }
+			],
+			"no-var": [
+				"error"
+			],
+			"one-var": [
+				"off"
+			],
+			"vue/html-indent": [
+				"error",
+				"tab"
+			],
+			"vue/script-indent": [
+				"error",
+				"tab"
+			],
+			"vue/html-closing-bracket-newline": [
+				"error",
+				{
+					"singleline": "never",
+					"multiline": "never"
+				}
+			],
+			"vue/max-attributes-per-line": [
+				"error",
+				{
+					"singleline": 4,
+					"multiline": {
+						"max": 2,
+						"allowFirstLine": true
+					}
+				}
+			],
+			"vue/no-duplicate-attributes": [
+				"allow"
+			]
 		},
 		"parserOptions": {
 			"parser": "babel-eslint"

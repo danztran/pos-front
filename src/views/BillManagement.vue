@@ -45,7 +45,7 @@
 							{{ item.subpoint }}
 						</md-table-cell>
 						<md-table-cell md-label="Total" md-sort-by="total">
-							{{ parseMoney(item.total) }}
+							{{ _cm.parseMoney(item.total) }}
 						</md-table-cell>
 						<md-table-cell md-label="Bonus" md-sort-by="bonus">
 							{{ item.bonus }}
@@ -66,25 +66,25 @@
 </template>
 
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import CommonMixin from "@/components/CommonMixin";
-import TableBotBar from "@/components/TableBotBar";
-import BillPaid from "@/components/BillPaid";
+import HandleMessage from '@/components/HandleMessage';
+import TableBotBar from '@/components/TableBotBar';
+import BillPaid from '@/components/BillPaid';
+
 export default {
-	name: "BillManagement",
+	name: 'BillManagement',
 	components: {
-		"table-botbar": TableBotBar,
-		"bill-paid": BillPaid
+		'table-botbar': TableBotBar,
+		'bill-paid': BillPaid
 	},
-	mixins: [HandleMessage, CommonMixin],
+	mixins: [HandleMessage],
 	data() {
 		return {
 			queryOption: {
 				length: 10,
 				index: 0,
-				sortField: "updatedAt",
-				order: "desc",
-				text: ""
+				sortField: 'updatedAt',
+				order: 'desc',
+				text: ''
 			},
 			timer: null,
 			loading: false,
@@ -92,13 +92,13 @@ export default {
 			selected: {},
 			billDialog: false,
 			count: 0
-		}
+		};
 	},
 	created() {
 		this.query();
 	},
 	mounted() {
-		this.$root.$on("billAdded", bill => {
+		this.$root.$on('billAdded', (bill) => {
 			this.bills.unshift(bill);
 		});
 	},
@@ -128,21 +128,22 @@ export default {
 
 			this.$axios
 				.post(this.$api.bill.query, this.queryOption)
-				.then(res => {
-					let { bills, count } = res.data;
+				.then((res) => {
+					const { bills, count } = res.data;
 					if (count !== undefined) {
 						this.count = count;
 					}
 					if (bills) {
 						if (more) {
 							this.bills = [...this.bills, ...bills];
-						} else {
+						}
+						else {
 							this.bills = bills;
 						}
 						this.queryOption.index = this.bills.length;
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {

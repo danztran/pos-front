@@ -43,7 +43,7 @@
 							{{ item.phone }}
 						</md-table-cell>
 						<md-table-cell md-label="Join date" md-sort-by="createdAt">
-							{{ getLocaleDateTime(item.createdAt) }}
+							{{ _cm.getDateTime(item.createdAt) }}
 						</md-table-cell>
 					</md-table-row>
 				</md-table>
@@ -58,25 +58,25 @@
 </template>
 
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import CommonMixin from "@/components/CommonMixin";
-import UserForm from "@/components/UserForm";
-import TableBotBar from "@/components/TableBotBar";
+import HandleMessage from '@/components/HandleMessage';
+import UserForm from '@/components/UserForm';
+import TableBotBar from '@/components/TableBotBar';
+
 export default {
-	name: "UserManagement",
+	name: 'UserManagement',
 	components: {
-		"user-form": UserForm,
-		"table-botbar": TableBotBar
+		'user-form': UserForm,
+		'table-botbar': TableBotBar
 	},
-	mixins: [HandleMessage, CommonMixin],
+	mixins: [HandleMessage],
 	data() {
 		return {
 			queryOption: {
 				length: 10,
 				index: 0,
-				sortField: "updatedAt",
-				order: "desc",
-				text: ""
+				sortField: 'updatedAt',
+				order: 'desc',
+				text: ''
 			},
 			timer: null,
 			loading: false,
@@ -89,13 +89,11 @@ export default {
 		this.query();
 	},
 	mounted() {
-		this.$root.$on("userAdded", user => {
+		this.$root.$on('userAdded', (user) => {
 			this.users.unshift(user);
 		});
-		this.$root.$on("userEdited", user => {
-			this.users = this.users.map(e =>
-				e.username == user.username ? user : e
-			);
+		this.$root.$on('userEdited', (user) => {
+			this.users = this.users.map(e => (e.username == user.username ? user : e));
 		});
 	},
 	methods: {
@@ -123,21 +121,22 @@ export default {
 
 			this.$axios
 				.post(this.$api.user.query, this.queryOption)
-				.then(res => {
-					let { users, count } = res.data;
+				.then((res) => {
+					const { users, count } = res.data;
 					if (count !== undefined) {
 						this.count = count;
 					}
 					if (users) {
 						if (more) {
 							this.users = [...this.users, ...users];
-						} else {
+						}
+						else {
 							this.users = users;
 						}
 						this.queryOption.index = this.users.length;
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {

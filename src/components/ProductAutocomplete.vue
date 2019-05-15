@@ -13,7 +13,7 @@
 					<label>Add Product</label>
 
 					<template slot="md-autocomplete-item" slot-scope="{ item }" :md-input-id="item._id">
-						<span :disabled="!item.status">{{ item.code }} - {{ item.name }} - {{ parseMoney(item.price) }}</span>
+						<span :disabled="!item.status">{{ item.code }} - {{ item.name }} - {{ _cm.parseMoney(item.price) }}</span>
 					</template>
 					<span class="md-helper-text">Enter product name or code</span>
 					<span class="md-error">{{ message }}</span>
@@ -31,22 +31,22 @@
 }
 </style>
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import CommonMixin from "@/components/CommonMixin";
+import HandleMessage from '@/components/HandleMessage';
+
 export default {
-	name: "ProductAutocomplete",
-	mixins: [HandleMessage, CommonMixin],
+	name: 'ProductAutocomplete',
+	mixins: [HandleMessage],
 	props: {
 		message: {
 			type: String,
-			default: ""
+			default: ''
 		},
 		product: {
 			type: Object,
 			default() {
 				return {
-					value: {},
-				}
+					value: {}
+				};
 			}
 		}
 	},
@@ -66,15 +66,16 @@ export default {
 	},
 	methods: {
 		update(prop, data) {
-			this.$emit('update:' + prop, data);
+			this.$emit(`update:${prop}`, data);
 		},
 		select(item) {
 			this.disabled = true;
 			if (item.status) {
 				this.update('product', item);
 				this.update('message', '');
-			} else {
-				this.text = item.name + ' - ' + item.code;
+			}
+			else {
+				this.text = `${item.name} - ${item.code}`;
 				this.update('message', 'This product is currently unavailable for sale');
 			}
 		},
@@ -85,7 +86,8 @@ export default {
 				if (this.text !== '') {
 					this.timer = setTimeout(this.query, 500);
 				}
-			} else {
+			}
+			else {
 				this.disabled = false;
 			}
 		},
@@ -99,16 +101,16 @@ export default {
 					index: 0,
 					length: 10
 				})
-				.then(res => {
+				.then((res) => {
 					const { products } = res.data;
 					if (products) {
-						this.products = products.sort((a, b) => (b.status+'').localeCompare(a.status+''));
+						this.products = products.sort((a, b) => (`${b.status}`).localeCompare(`${a.status}`));
 						if (products.length === 0) {
 							this.update('message', 'Not found any product');
 						}
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {

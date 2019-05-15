@@ -7,7 +7,7 @@
 			<b>BILL</b>
 			<p>ID: {{ bill._id }}</p>
 			<p>Staff: {{ bill.user.fullname }}</p>
-			<p>Date: {{ getLocaleDateTime(bill.createdAt) }}</p>
+			<p>Date: {{ _cm.getDateTime(bill.createdAt) }}</p>
 		</div>
 		<div class="info info-customer">
 			<b>CUSTOMER</b>
@@ -30,14 +30,14 @@
 					<tr v-for="(p, i) in bill.products" :key="p._id">
 						<td>{{ i + 1 }}</td>
 						<td>{{ p.product.name }}</td>
-						<td>{{ parseMoney(p.price) }}</td>
+						<td>{{ _cm.parseMoney(p.price) }}</td>
 						<td>
 							<div v-if="p.sale">
 								- {{ p.sale }}%
 							</div>
 						</td>
 						<td>×{{ p.quantity }}</td>
-						<td>{{ parseMoney(subtotal(p)) }}</td>
+						<td>{{ _cm.parseMoney(subtotal(p)) }}</td>
 					</tr>
 				</tbody>
 				<tfoot>
@@ -47,7 +47,7 @@
 						<td><b>Point use:</b></td>
 						<td>{{ bill.subpoint }}</td>
 						<td>reduce: </td>
-						<td>- {{ parseMoney(bill.subpoint) }}</td>
+						<td>- {{ _cm.parseMoney(bill.subpoint) }}</td>
 					</tr>
 					<tr>
 						<td />
@@ -55,7 +55,7 @@
 						<td />
 						<td />
 						<td>Total:</td>
-						<td>{{ parseMoney(totalPrice()) }}</td>
+						<td>{{ _cm.parseMoney(totalPrice()) }}</td>
 					</tr>
 				</tfoot>
 			</table>
@@ -102,14 +102,12 @@ $bordercolor: #ddd;
 </style>
 
 <script>
-import CommonMixin from "@/components/CommonMixin";
 export default {
-	name: "BillForm",
-	mixins: [CommonMixin],
+	name: 'BillForm',
 	props: {
 		bill: {
 			type: Object,
-			default () {
+			default() {
 				return {};
 			}
 		}
@@ -120,7 +118,7 @@ export default {
 		},
 		totalPrice() {
 			return this.bill.products.reduce((v, p) => v += this.subtotal(p), -parseFloat(this.bill.subpoint));
-		},
+		}
 	}
 };
 </script>

@@ -49,54 +49,55 @@
 </template>
 
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import FieldInput from "@/components/FieldInput";
+import HandleMessage from '@/components/HandleMessage';
+import FieldInput from '@/components/FieldInput';
+
 const initForm = function() {
 	return {
 		isAdmin: false,
 		isStaff: true,
 		fullname: {
-			label: "Full name",
-			name: "fullname",
-			type: "text",
-			value: "",
-			message: ""
+			label: 'Full name',
+			name: 'fullname',
+			type: 'text',
+			value: '',
+			message: ''
 		},
 		username: {
-			label: "Username",
-			name: "username",
-			type: "text",
-			tooltip2: "Username can not be edited",
-			value: "",
-			message: ""
+			label: 'Username',
+			name: 'username',
+			type: 'text',
+			tooltip2: 'Username can not be edited',
+			value: '',
+			message: ''
 		},
 		password: {
-			label: "Password",
-			name: "password",
-			type: "password",
-			tooltip2: "Password is not showing",
-			value: "",
-			message: ""
+			label: 'Password',
+			name: 'password',
+			type: 'password',
+			tooltip2: 'Password is not showing',
+			value: '',
+			message: ''
 		},
 		phone: {
-			label: "Phone number",
-			name: "phone",
-			type: "text",
-			value: "",
-			message: ""
+			label: 'Phone number',
+			name: 'phone',
+			type: 'text',
+			value: '',
+			message: ''
 		}
-	}
+	};
 };
 export default {
-	name: "UserForm",
+	name: 'UserForm',
 	components: {
-		"field-input": FieldInput
+		'field-input': FieldInput
 	},
 	mixins: [HandleMessage],
 	props: {
 		user: {
 			type: Object,
-			default () {
+			default() {
 				return {};
 			}
 		}
@@ -114,7 +115,7 @@ export default {
 		}
 	},
 	watch: {
-		user: function(newVal, oldVal) {
+		user(newVal, oldVal) {
 			this.fillForm(newVal);
 		},
 		'form.isAdmin': function(val) {
@@ -148,32 +149,33 @@ export default {
 				phone: this.form.phone.value,
 				isAdmin: this.form.isAdmin,
 				isStaff: this.form.isStaff
-			}
+			};
 			if (this.form.password.value) {
-				data['password'] = this.form.password.value;
+				data.password = this.form.password.value;
 			}
 			return data;
 		},
 		handleSubmit() {
-			this.$root.$emit("hideMsg");
+			this.$root.$emit('hideMsg');
 			this.loading = true;
 			if (this.formAdd) {
 				this.add();
-			} else {
+			}
+			else {
 				this.edit();
 			}
 		},
 		add() {
 			this.$axios
 				.post(this.$api.user.add, this.getFormData())
-				.then(res => {
-					let { message, user } = res.data;
+				.then((res) => {
+					const { message, user } = res.data;
 					if (user) {
-						this.$root.$emit("userAdded", user);
+						this.$root.$emit('userAdded', user);
 					}
 					this.handleMessage(message);
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
@@ -183,14 +185,14 @@ export default {
 		edit() {
 			this.$axios
 				.post(this.$api.user.edit, this.getFormData())
-				.then(res => {
-					let { message, user } = res.data;
+				.then((res) => {
+					const { message, user } = res.data;
 					if (user) {
-						this.$root.$emit("userEdited", user);
+						this.$root.$emit('userEdited', user);
 					}
 					this.handleMessage(message);
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {

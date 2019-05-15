@@ -18,7 +18,7 @@
 					<md-progress-bar v-visible.hid="loading" md-mode="indeterminate" />
 					<md-card-content>
 						<transition name="height">
-							<div v-if="notEmpty(form.customer.value)">
+							<div v-if="_cm.notEmpty(form.customer.value)">
 								<h3>CUSTOMER:</h3>
 								<h2 class="md-text-primary">
 									{{ form.customer.value.fullname }} - {{ form.customer.value.phone }}
@@ -35,7 +35,7 @@
 						<div class="">
 							<h3>TOTAL PRICE:</h3>
 							<h1 class="md-text-primary">
-								{{ parseMoney(totalPrice) }}
+								{{ _cm.parseMoney(totalPrice) }}
 							</h1>
 						</div>
 						<md-radio v-model="form.payment" value="cash" class="md-primary" :disabled="loading">
@@ -68,38 +68,38 @@
 </template>
 
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import CommonMixin from "@/components/CommonMixin";
-import FieldInput from "@/components/FieldInput";
-import CustomerAutocomplete from "@/components/CustomerAutocomplete";
-import ProductAutocomplete from "@/components/ProductAutocomplete";
-import BillProductList from "@/components/BillProductList";
-import BillPaid from "@/components/BillPaid";
+import HandleMessage from '@/components/HandleMessage';
+import FieldInput from '@/components/FieldInput';
+import CustomerAutocomplete from '@/components/CustomerAutocomplete';
+import ProductAutocomplete from '@/components/ProductAutocomplete';
+import BillProductList from '@/components/BillProductList';
+import BillPaid from '@/components/BillPaid';
+
 const initForm = function() {
 	return {
 		customer: {
 			value: {},
-			message: ""
+			message: ''
 		},
 		product: {
 			value: {},
-			message: ""
+			message: ''
 		},
 		products: [],
 		subpoint: {
-			label: "Use point",
-			type: "Number",
+			label: 'Use point',
+			type: 'Number',
 			value: 0,
-			suffix: "/",
+			suffix: '/',
 			max: 0,
 			min: 0,
-			message: ""
+			message: ''
 		},
-		payment: "cash"
-	}
-}
+		payment: 'cash'
+	};
+};
 export default {
-	name: "BillCreator",
+	name: 'BillCreator',
 	components: {
 		'field-input': FieldInput,
 		'customer-autocomplete': CustomerAutocomplete,
@@ -107,7 +107,7 @@ export default {
 		'product-list': BillProductList,
 		'bill-paid': BillPaid
 	},
-	mixins: [HandleMessage, CommonMixin],
+	mixins: [HandleMessage],
 	data() {
 		return {
 			loading: false,
@@ -122,11 +122,11 @@ export default {
 		},
 		totalPrice() {
 			return this.form.products.reduce((v, e) => v += e.total, 0) - this.form.subpoint.value;
-		},
+		}
 	},
 	watch: {
-		"form.product.value": function(val, old) {
-			if (this.notEmpty(val)) {
+		'form.product.value': function(val, old) {
+			if (this._cm.notEmpty(val)) {
 				if (!this.form.products.find(e => e.code == val.code)) {
 					const date = Date.now();
 					let sale = 0;
@@ -141,14 +141,15 @@ export default {
 					val.buyQuantity = 1;
 					val.total = val.salePrice;
 					this.form.products.unshift(val);
-				} else {
+				}
+				else {
 					this.form.product.message = 'This product is exists in bill';
 				}
 			}
 		},
-		"form.customer.value": function(val, old) {
-			if (this.notEmpty(val)) {
-				this.form.subpoint.suffix = '/' + val.point;
+		'form.customer.value': function(val, old) {
+			if (this._cm.notEmpty(val)) {
+				this.form.subpoint.suffix = `/${val.point}`;
 				this.form.subpoint.max = val.point;
 			}
 		}
@@ -167,10 +168,10 @@ export default {
 		},
 		add() {
 			this.loading = true;
-			this.$root.$emit("hideMsg");
+			this.$root.$emit('hideMsg');
 			this.$axios
 				.post(this.$api.bill.add, this.getFormData())
-				.then(res => {
+				.then((res) => {
 					const { message, bill, customer } = res.data;
 					this.billPaid = bill;
 					this.billDialog = true;
@@ -178,13 +179,13 @@ export default {
 					this.handleMessage(message);
 					this.form.customer.value = customer;
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
 					this.loading = false;
 				});
-		},
+		}
 	}
 };
 </script>

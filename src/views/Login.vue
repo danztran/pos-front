@@ -56,24 +56,25 @@
 </template>
 <script>
 import HandleMessage from '@/components/HandleMessage';
+
 export default {
-	name: "App",
+	name: 'App',
 	mixins: [HandleMessage],
 	data: () => ({
 		loading: false,
 		username: {
-			status: "",
-			value: "",
-			message: ""
+			status: '',
+			value: '',
+			message: ''
 		},
 		password: {
-			status: "",
-			value: "",
-			message: ""
+			status: '',
+			value: '',
+			message: ''
 		},
-		message: "",
-		flashMessage: "",
-		errorClass: "md-invalid"
+		message: '',
+		flashMessage: '',
+		errorClass: 'md-invalid'
 	}),
 	methods: {
 		clearMsg() {
@@ -87,22 +88,23 @@ export default {
 				username: this.username.value,
 				password: this.password.value
 			})
-				.then(res => {
+				.then((res) => {
 					const { user } = res.data;
 					if (user) {
 						this.$cookies.set('user', res.data.user);
 					}
 					this.$router.push({ name: 'bill-creator' });
 				})
-				.catch(err => {
-					let message = err.message;
+				.catch((err) => {
+					const { message } = err;
 					this.message = '';
 					if (message) {
-						for (let key in message) {
+						for (const key in message) {
 							if (this.hasOwnProperty(key)) {
 								this[key].message = message[key];
 								this[key].status = this.errorClass;
-							} else {
+							}
+							else {
 								this.message += message[key];
 							}
 						}

@@ -45,22 +45,22 @@
 </style>
 <script>
 export default {
-	name: "TabIcons",
+	name: 'TabIcons',
 	data() {
 		return {
 			user: {
-				fullname: "",
-				username: ""
+				fullname: '',
+				username: ''
 			}
 		};
 	},
 	created() {
-		this.user = this.$cookies.get("user");
+		this.user = this.$cookies.get('user');
 	},
 	mounted() {
-		this.$root.$on("selfEdit", user => {
+		this.$root.$on('selfEdit', (user) => {
 			this.user = user;
 		});
-	},
+	}
 };
 </script>

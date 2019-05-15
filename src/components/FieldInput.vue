@@ -40,21 +40,21 @@
 
 <script>
 export default {
-	name: "FieldInput",
+	name: 'FieldInput',
 	props: {
 		field: {
 			type: Object,
 			default() {
 				return {
-					label: "Label",
-					name: "",
-					type: "text",
-					value: "",
-					message: "",
-					prefix: "",
-					suffix: "",
+					label: 'Label',
+					name: '',
+					type: 'text',
+					value: '',
+					message: '',
+					prefix: '',
+					suffix: '',
 					maxlength: null
-				}
+				};
 			}
 		},
 		disabled: {
@@ -69,6 +69,6 @@ export default {
 			type: Boolean,
 			default: false
 		}
-	},
-}
+	}
+};
 </script>

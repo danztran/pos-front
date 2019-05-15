@@ -35,7 +35,7 @@
 
 <script>
 export default {
-	name: "TableBotBar",
+	name: 'TableBotBar',
 	props: {
 		index: {
 			type: Number,
@@ -48,12 +48,12 @@ export default {
 		loading: {
 			type: Boolean,
 			default: true
-		},
+		}
 	},
 	data() {
 		return {
 			lengths: [20, 50, 100]
-		}
+		};
 	},
 	methods: {
 		getQueryLength(num) {
@@ -63,5 +63,5 @@ export default {
 			this.$emit('queryMore', num);
 		}
 	}
-}
+};
 </script>

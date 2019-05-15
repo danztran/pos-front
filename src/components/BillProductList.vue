@@ -17,17 +17,17 @@
 								<span>{{ product.code }}</span>
 							</div>
 							<div class="md-list-item-text">
-								<span>{{ parseMoney(product.salePrice) }}</span>
+								<span>{{ _cm.parseMoney(product.salePrice) }}</span>
 								<span v-if="product.sale">
 									<span class="line-through">
-										{{ parseMoney(product.price) }}
+										{{ _cm.parseMoney(product.price) }}
 									</span>
 									<span class="sale-pill">
 										<span class="sale-pill_text"> -{{ product.sale }}% </span>
 										<md-tooltip md-direction="bottom">
-											{{ getYMDString(product.saleBegin) }}
+											{{ _cm.getDate(product.saleBegin) }}
 											-
-											{{ getYMDString(product.saleEnd) }}
+											{{ _cm.getDate(product.saleEnd) }}
 										</md-tooltip>
 									</span>
 								</span>
@@ -45,7 +45,7 @@
 								</span>
 							</div>
 							<div class="md-list-item-text">
-								= {{ parseMoney(product.total) }}
+								= {{ _cm.parseMoney(product.total) }}
 							</div>
 
 							<md-button class="md-icon-button md-list-action" @click="remove(product)">
@@ -61,10 +61,8 @@
 </template>
 
 <script>
-import CommonMixin from "@/components/CommonMixin";
 export default {
-	name: "BillProductList",
-	mixins: [CommonMixin],
+	name: 'BillProductList',
 	props: {
 		products: {
 			type: Array,
@@ -81,7 +79,7 @@ export default {
 		updatePrice(product) {
 			product.total = product.salePrice * product.buyQuantity;
 			this.sync();
-		},
+		}
 	}
-}
+};
 </script>

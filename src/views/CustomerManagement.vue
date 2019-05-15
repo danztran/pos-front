@@ -41,7 +41,7 @@
 							{{ item.point }}
 						</md-table-cell>
 						<md-table-cell md-label="Join date" md-sort-by="createdAt">
-							{{ getLocaleDateTime(item.createdAt) }}
+							{{ _cm.getDateTime(item.createdAt) }}
 						</md-table-cell>
 					</md-table-row>
 				</md-table>
@@ -56,25 +56,25 @@
 </template>
 
 <script>
-import HandleMessage from "@/components/HandleMessage";
-import CommonMixin from "@/components/CommonMixin";
-import CustomerForm from "@/components/CustomerForm";
-import TableBotBar from "@/components/TableBotBar";
+import HandleMessage from '@/components/HandleMessage';
+import CustomerForm from '@/components/CustomerForm';
+import TableBotBar from '@/components/TableBotBar';
+
 export default {
-	name: "CustomerManagement",
+	name: 'CustomerManagement',
 	components: {
-		"customer-form": CustomerForm,
-		"table-botbar": TableBotBar
+		'customer-form': CustomerForm,
+		'table-botbar': TableBotBar
 	},
-	mixins: [HandleMessage, CommonMixin],
+	mixins: [HandleMessage],
 	data() {
 		return {
 			queryOption: {
 				length: 10,
 				index: 0,
-				sortField: "updatedAt",
-				order: "desc",
-				text: ""
+				sortField: 'updatedAt',
+				order: 'desc',
+				text: ''
 			},
 			timer: null,
 			loading: false,
@@ -87,13 +87,11 @@ export default {
 		this.query();
 	},
 	mounted() {
-		this.$root.$on("customerAdded", customer => {
+		this.$root.$on('customerAdded', (customer) => {
 			this.customers.unshift(customer);
 		});
-		this.$root.$on("customerEdited", customer => {
-			this.customers = this.customers.map(e =>
-				e._id == customer._id ? customer : e
-			);
+		this.$root.$on('customerEdited', (customer) => {
+			this.customers = this.customers.map(e => (e._id == customer._id ? customer : e));
 		});
 	},
 	methods: {
@@ -120,21 +118,22 @@ export default {
 			}
 			this.$axios
 				.post(this.$api.customer.query, this.queryOption)
-				.then(res => {
-					let { customers, count } = res.data;
+				.then((res) => {
+					const { customers, count } = res.data;
 					if (count !== undefined) {
 						this.count = count;
 					}
 					if (customers) {
 						if (more) {
 							this.customers = [...this.customers, ...customers];
-						} else {
+						}
+						else {
 							this.customers = customers;
 						}
 						this.queryOption.index = this.customers.length;
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.handleMessage(err.message);
 				})
 				.then(() => {
