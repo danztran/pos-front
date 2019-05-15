@@ -79,6 +79,7 @@ const initForm = function() {
 			value: ''
 		},
 		fullname: {
+			hicon: 'title',
 			label: 'Full name',
 			name: 'fullname',
 			type: 'text',
@@ -86,6 +87,7 @@ const initForm = function() {
 			message: ''
 		},
 		username: {
+			hicon: 'account_box',
 			label: 'Username',
 			name: 'username',
 			type: 'text',
@@ -94,6 +96,7 @@ const initForm = function() {
 			message: ''
 		},
 		phone: {
+			hicon: 'local_phone',
 			label: 'Phone number',
 			name: 'phone',
 			type: 'text',
@@ -101,6 +104,7 @@ const initForm = function() {
 			message: ''
 		},
 		curpassword: {
+			hicon: 'dashboard',
 			label: 'Current Password',
 			name: 'curpassword',
 			type: 'password',
@@ -108,6 +112,7 @@ const initForm = function() {
 			message: ''
 		},
 		password: {
+			hicon: 'dashboard',
 			label: 'New Password',
 			name: 'password',
 			type: 'password',

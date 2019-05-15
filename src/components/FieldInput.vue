@@ -1,6 +1,9 @@
 <template>
 	<div>
 		<md-field :class="{ 'md-invalid': field.message }" :md-counter="field.maxlength > 0">
+			<md-icon v-if="field.hicon">
+				{{ field.hicon }}
+			</md-icon>
 			<label :for="field.name">
 				{{ field.label }}
 				<span v-if="tip1">
@@ -16,13 +19,16 @@
 			<md-input
 				:id="field.name"
 				v-model="field.value"
-				:type="field.type"
+				:type="field.type || 'text'"
 				:name="field.name"
 				:disabled="disabled"
 				:min="field.min != undefined ? field.min : null"
 				:max="field.max > 0 ? field.max : null"
 				:maxlength="field.maxlength > 0 ? field.maxlength : null"
 				@input="field.message = ''" />
+			<md-icon v-if="field.ficon">
+				{{ field.ficon }}
+			</md-icon>
 			<span v-if="field.suffix" class="md-suffix">{{ field.suffix }}</span>
 			<span class="md-helper-text">{{ field.helper }}</span>
 			<span class="md-error">{{ field.message }}</span>

@@ -57,6 +57,7 @@ const initForm = function() {
 		isAdmin: false,
 		isStaff: true,
 		fullname: {
+			hicon: 'title',
 			label: 'Full name',
 			name: 'fullname',
 			type: 'text',
@@ -64,6 +65,7 @@ const initForm = function() {
 			message: ''
 		},
 		username: {
+			hicon: 'account_box',
 			label: 'Username',
 			name: 'username',
 			type: 'text',
@@ -72,6 +74,7 @@ const initForm = function() {
 			message: ''
 		},
 		password: {
+			hicon: 'dashboard',
 			label: 'Password',
 			name: 'password',
 			type: 'password',
@@ -80,6 +83,7 @@ const initForm = function() {
 			message: ''
 		},
 		phone: {
+			hicon: 'local_phone',
 			label: 'Phone number',
 			name: 'phone',
 			type: 'text',

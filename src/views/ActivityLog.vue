@@ -1,27 +1,45 @@
 <template>
 	<div class="md-layout md-gutter md-alignment-top-center">
-		<div class="md-layout-item md-large-size-60 md-medium-size-70 md-small-size-100">
+		<div class="md-layout-item md-large-size-55 md-medium-size-70 md-small-size-100">
 			<md-card>
 				<md-progress-bar v-visible.hid="loading" md-mode="query" />
 				<md-switch v-model="autoUpdate" class="md-primary sw-title">
 					Auto update
 				</md-switch>
 				<div class="text-center">
-					<h2>ACTIVITY LOG</h2>
+					<h2 style="margin-bottom: 5px;">
+						ACTIVITY LOG
+					</h2>
+					<md-field style="width: 30%; margin: 0 auto 10px auto;">
+						<label>
+							Action filter
+						</label>
+						<md-input v-model="queryOption.text" type="text" @input="searching" @keydown.esc="queryOption.text=''" />
+						<md-icon>filter_list</md-icon>
+					</md-field>
 				</div>
-				<table>
-					<tbody is="transition-group" tag="tbody" name="rowfly" mode="out-in">
-						<tr v-for="log of aclogs" :key="log._id">
-							<td>{{ _cm.getTime(log.createdAt) }}</td>
-							<td>
-								<p class="text">
-									{{ log.action }} —
-									<span class="text-normal">{{ getLogNote(log) }}</span>
-								</p>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div style="padding: 0 20px 20px 20px;">
+					<div style="height: 500px; overflow-y: scroll;">
+						<table>
+							<tbody is="transition-group" tag="tbody" name="rowfly" mode="out-in">
+								<tr v-for="log of aclogs" :key="log._id">
+									<td>
+										<span>{{ _cm.getTime(log.createdAt) }}</span>
+										<md-tooltip md-direction="top">
+											{{ _cm.getDate(log.createdAt) }}
+										</md-tooltip>
+									</td>
+									<td>
+										<p class="text">
+											{{ log.action }} —
+											<span class="text-normal">{{ getLogNote(log) }}</span>
+										</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</md-card>
 		</div>
 	</div>
@@ -42,7 +60,6 @@
 }
 table {
 	width: 100%;
-	padding: 5px 20px 20px 20px;
 	tbody {
 		tr {
 			transition: all .4s;
@@ -51,6 +68,9 @@ table {
 				margin: 8px;
 				padding: 3px;
 				background-color: rgba(0,0,0,.07);
+				&:nth-of-type(1) {
+					width: 1%;
+				}
 				p.text {
 					margin: 5px;
 					font-size: 15px;
@@ -66,7 +86,6 @@ table {
 </style>
 <script>
 import HandleMessage from '@/components/HandleMessage';
-
 export default {
 	name: 'ActivityLog',
 	mixins: [HandleMessage],
@@ -80,8 +99,9 @@ export default {
 				index: 0,
 				length: 20
 			},
-			autoUpdate: false,
-			timer: null,
+			autoUpdate: true,
+			interval: null,
+			timeout: null,
 			delay: 5000,
 			aclogs: []
 		};
@@ -90,21 +110,22 @@ export default {
 		autoUpdate(val) {
 			if (val) {
 				this.query();
-				this.timer = setInterval(() => {
+				this.interval = setInterval(() => {
 					this.query();
 				}, this.delay);
 			}
 			else {
-				clearInterval(this.timer);
+				clearInterval(this.interval);
 			}
 		}
 	},
 	created() {
-		this.autoUpdate = true;
+		this.query();
+		this.autoUpdate = false;
 	},
 	beforeDestroy() {
 		this.autoUpdate = false;
-		clearInterval(this.timer);
+		clearInterval(this.interval);
 	},
 	methods: {
 		getLogNote(log) {
@@ -113,14 +134,20 @@ export default {
 				target: log.target.fullname || log.target.name || log.target.username || log.target._id
 			});
 		},
-		query() {
+		searching() {
+			clearTimeout(this.timeout);
+			this.timeout = setTimeout(() => {
+				this.query(false);
+			}, 400);
+		},
+		query(merge = true) {
 			this.loading = true;
 			this.$axios
 				.post(this.$api.activityLog.query, this.queryOption)
 				.then((res) => {
 					const { aclogs } = res.data;
 					if (aclogs) {
-						this.aclogs = this._cm.uniqBy('_id', [...aclogs, ...this.aclogs]);
+						this.aclogs = !merge ? aclogs : this._cm.uniqBy('_id', [...aclogs, ...this.aclogs]);
 					}
 				})
 				.catch((err) => {

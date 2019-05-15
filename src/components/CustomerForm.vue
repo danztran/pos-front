@@ -57,6 +57,7 @@ const initForm = function() {
 	return {
 		_id: '',
 		fullname: {
+			hicon: 'title',
 			label: 'Full name',
 			name: 'fullname',
 			type: 'text',
@@ -64,6 +65,7 @@ const initForm = function() {
 			message: ''
 		},
 		phone: {
+			hicon: 'local_phone',
 			label: 'Phone number',
 			name: 'phone',
 			type: 'text',

@@ -1,25 +1,24 @@
 <template>
 	<div>
-		<md-card>
-			<md-progress-bar v-visible.hid="loading" md-mode="query" />
-			<md-card-content>
-				<md-autocomplete
-					v-model="text"
-					:class="{'md-invalid': message}"
-					:md-options="products"
-					@md-changed="getDataComplete"
-					@md-opened="products = [...products]"
-					@md-selected="select">
-					<label>Add Product</label>
+		<md-progress-bar v-visible.hid="loading" md-mode="query" />
+		<md-autocomplete
+			v-model="text"
+			:class="{'md-invalid': message}"
+			:md-options="products"
+			@md-changed="getDataComplete"
+			@md-opened="products = [...products]"
+			@md-selected="select">
+			<label>Add Product</label>
 
-					<template slot="md-autocomplete-item" slot-scope="{ item }" :md-input-id="item._id">
-						<span :disabled="!item.status">{{ item.code }} - {{ item.name }} - {{ _cm.parseMoney(item.price) }}</span>
-					</template>
-					<span class="md-helper-text">Enter product name or code</span>
-					<span class="md-error">{{ message }}</span>
-				</md-autocomplete>
-			</md-card-content>
-		</md-card>
+			<template slot="md-autocomplete-item" slot-scope="{ item }" :md-input-id="item._id">
+				<span :disabled="!item.status">{{ item.code }} - {{ item.name }} - {{ _cm.parseMoney(item.price) }}</span>
+			</template>
+			<md-icon v-if="!text">
+				search
+			</md-icon>
+			<span class="md-helper-text">Enter product name or code</span>
+			<span class="md-error">{{ message }}</span>
+		</md-autocomplete>
 	</div>
 </template>
 <style lang="scss" scoped>

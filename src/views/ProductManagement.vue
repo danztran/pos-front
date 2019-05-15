@@ -53,7 +53,7 @@
 							<span v-else>
 								<md-icon>highlight_off</md-icon>
 							</span>
-							<md-tooltip md-direction="right">
+							<md-tooltip md-direction="left">
 								{{ _cm.getDate(item.saleBegin) }}
 								-
 								{{ _cm.getDate(item.saleEnd) }}

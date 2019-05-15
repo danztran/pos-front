@@ -1,31 +1,53 @@
 <template>
 	<div class="md-layout md-gutter md-alignment-top-center">
 		<div class="md-layout-item md-large-size-70 md-layout md-gutter">
-			<div class="md-layout-item md-large-size-50">
-				<product-autocomplete :message.sync="form.product.message" :product.sync="form.product.value" />
-			</div>
-			<div class="md-layout-item md-large-size-50">
-				<customer-autocomplete :message.sync="form.customer.message" :customer.sync="form.customer.value" />
-			</div>
+			<!-- <div class="md-layout-item md-large-size-50"> -->
+			<!-- <customer-autocomplete :message.sync="form.customer.message" :customer.sync="form.customer.value" /> -->
+			<!-- </div> -->
+			<!-- <div class="md-layout-item md-large-size-100"> -->
+			<!-- </div> -->
 			<div class="md-layout-item md-large-size-100">
-				<product-list :products.sync="form.products" />
+				<md-card>
+					<md-card-content>
+						<div style="width: 50%; margin: auto;">
+							<product-autocomplete :message.sync="form.product.message" :product.sync="form.product.value" />
+						</div>
+						<br>
+						<product-list :products.sync="form.products" />
+					</md-card-content>
+				</md-card>
 			</div>
 		</div>
 
 		<div class="md-layout-item md-large-size-30 md-layout md-gutter" style="padding-left: 0">
 			<div class="md-layout-item md-large-size-100" style="padding-left: 0">
+				<customer-autocomplete :message.sync="form.customer.message" :customer.sync="form.customer.value" />
+			</div>
+			<div class="md-layout-item md-large-size-100" style="padding-left: 0">
 				<md-card>
 					<md-progress-bar v-visible.hid="loading" md-mode="indeterminate" />
 					<md-card-content>
-						<transition name="height">
-							<div v-if="_cm.notEmpty(form.customer.value)">
-								<h3>CUSTOMER:</h3>
-								<h2 class="md-text-primary">
-									{{ form.customer.value.fullname }} - {{ form.customer.value.phone }}
-								</h2>
-								<field-input :field="form.subpoint" :disabled="loading" />
-							</div>
-						</transition>
+						<!-- <transition name="height"> -->
+						<!-- <div>
+								<customer-autocomplete :message.sync="form.customer.message" :customer.sync="form.customer.value" />
+							</div> -->
+						<!-- </transition> -->
+						<div style="min-height: 10px;">
+							<transition name="height">
+								<div v-show="_cm.notEmpty(form.customer.value)">
+									<!-- 								<md-button class="" @click="form.customer.value = {}">
+									<md-icon>clear</md-icon>
+								</md-button> -->
+									<!-- <h3>CUSTOMER:</h3> -->
+									<h2 class="">
+										{{ form.customer.value.fullname }}
+										-
+										{{ form.customer.value.phone }}
+									</h2>
+									<field-input :field="form.subpoint" :disabled="loading" />
+								</div>
+							</transition>
+						</div>
 						<div class="">
 							<h3>TOTAL ITEM:</h3>
 							<h2 class="md-text-primary">
@@ -66,7 +88,12 @@
 		</md-dialog>
 	</div>
 </template>
-
+<style scoped>
+.md-layout-item {
+	margin-top: 5px !important;
+	margin-bottom: 10px;
+}
+</style>
 <script>
 import HandleMessage from '@/components/HandleMessage';
 import FieldInput from '@/components/FieldInput';

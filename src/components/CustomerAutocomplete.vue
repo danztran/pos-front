@@ -15,8 +15,11 @@
 					<template slot="md-autocomplete-item" slot-scope="{ item }" :md-input-id="item._id">
 						{{ item.phone }} - {{ item.fullname }}
 					</template>
-					<span v-if="text" class="md-helper-text">Phone: {{ customer.phone }} - Point: {{ customer.point }}</span>
-					<span v-else class="md-helper-text">Enter name or phone</span>
+					<md-icon v-if="!text">
+						search
+					</md-icon>
+					<!-- <span v-if="text" class="md-helper-text">Phone: {{ customer.phone }} - Point: {{ customer.point }}</span> -->
+					<span v-if="!text" class="md-helper-text">Enter name or phone</span>
 					<span class="md-error">{{ message }}</span>
 				</md-autocomplete>
 			</md-card-content>

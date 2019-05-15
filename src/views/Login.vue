@@ -17,6 +17,7 @@
 						</md-card-header>
 						<md-card-content>
 							<md-field :class="username.status">
+								<md-icon>account_box</md-icon>
 								<label>Username</label>
 								<md-input
 									v-model="username.value"
@@ -26,6 +27,7 @@
 								<span class="md-error">{{ username.message }}</span>
 							</md-field>
 							<md-field md-has-password :class="password.status">
+								<md-icon>dashboard</md-icon>
 								<label>Password</label>
 								<md-input
 									v-model="password.value"

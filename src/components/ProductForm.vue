@@ -88,6 +88,7 @@ const initForm = function() {
 			message: ''
 		},
 		name: {
+			hicon: 'text_fields',
 			label: 'Name',
 			name: 'name',
 			type: 'text',
@@ -95,6 +96,7 @@ const initForm = function() {
 			message: ''
 		},
 		code: {
+			hicon: 'view_module',
 			label: 'Code',
 			name: 'code',
 			type: 'text',
@@ -103,30 +105,31 @@ const initForm = function() {
 			message: ''
 		},
 		origin: {
+			hicon: 'monetization_on',
 			label: 'Origin Price',
 			name: 'origin',
 			type: 'number',
 			value: 0,
-			message: '',
-			prefix: '$'
+			message: ''
 		},
 		price: {
+			hicon: 'attach_money',
 			label: 'Price',
 			name: 'price',
 			type: 'number',
 			value: 0,
-			message: '',
-			prefix: '$'
+			message: ''
 		},
 		sale: {
+			hicon: 'local_offer',
 			label: 'Sale',
 			name: 'sale',
 			type: 'number',
 			value: '',
-			message: '',
-			prefix: '%'
+			message: ''
 		},
 		quantity: {
+			hicon: 'swap_vert',
 			label: 'Quantity',
 			name: 'quantity',
 			type: 'number',

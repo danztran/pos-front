@@ -1,10 +1,10 @@
 <template>
 	<div class="navbar">
 		<md-tabs class="md-primary" md-alignment="centered" md-sync-route>
-			<md-tab v-if="user.sysAdmin" id="tab-home"
+			<!-- <md-tab v-if="user.sysAdmin" id="tab-home"
 				md-label="Dashboard"
 				md-icon="home"
-				to="/dashboard" />
+				to="/dashboard" /> -->
 			<md-tab id="tab-profile" :md-label="user.fullname"
 				md-icon="account_circle"
 				to="/profile" />
