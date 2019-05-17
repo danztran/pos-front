@@ -1,11 +1,6 @@
 <template>
 	<div class="md-layout md-gutter md-alignment-top-center">
 		<div class="md-layout-item md-large-size-70 md-layout md-gutter">
-			<!-- <div class="md-layout-item md-large-size-50"> -->
-			<!-- <customer-autocomplete :message.sync="form.customer.message" :customer.sync="form.customer.value" /> -->
-			<!-- </div> -->
-			<!-- <div class="md-layout-item md-large-size-100"> -->
-			<!-- </div> -->
 			<div class="md-layout-item md-large-size-100">
 				<md-card>
 					<md-card-content>
@@ -27,18 +22,9 @@
 				<md-card>
 					<md-progress-bar v-visible.hid="loading" md-mode="indeterminate" />
 					<md-card-content>
-						<!-- <transition name="height"> -->
-						<!-- <div>
-								<customer-autocomplete :message.sync="form.customer.message" :customer.sync="form.customer.value" />
-							</div> -->
-						<!-- </transition> -->
 						<div style="min-height: 10px;">
 							<transition name="height">
 								<div v-show="_cm.notEmpty(form.customer.value)">
-									<!-- 								<md-button class="" @click="form.customer.value = {}">
-									<md-icon>clear</md-icon>
-								</md-button> -->
-									<!-- <h3>CUSTOMER:</h3> -->
 									<h2 class="">
 										{{ form.customer.value.fullname }}
 										-

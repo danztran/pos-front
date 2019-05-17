@@ -5,8 +5,7 @@ import router from '@/router';
 const mdw = {
 
 	guard(to, from, next) {
-		const auth = cookies.get('user');
-		if (!auth) {
+		if (!mdw.isUser()) {
 			return router.push({ name: 'login' });
 		}
 		return next();
@@ -22,7 +21,7 @@ const mdw = {
 	},
 
 	isUser() {
-		return Boolean(cookies.get('user'));
+		return Boolean(cookies.get('_us_r'));
 	}
 };
 export default mdw;

@@ -93,7 +93,7 @@ export default {
 				.then((res) => {
 					const { user } = res.data;
 					if (user) {
-						this.$cookies.set('user', res.data.user);
+						this.$cookies.set('_us_r', btoa(JSON.stringify(user)));
 					}
 					this.$router.push({ name: 'bill-creator' });
 				})

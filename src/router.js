@@ -13,6 +13,7 @@ import BillManagement from './views/BillManagement';
 import BillCreator from './views/BillCreator';
 import UserProfile from './views/UserProfile';
 import ActivityLog from './views/ActivityLog';
+import PageNotFound from './views/PageNotFound.vue';
 
 const router = new Router({
 	mode: 'history',
@@ -43,16 +44,16 @@ const router = new Router({
 					path: '/',
 					component: DashboardLayout,
 					beforeEnter: authMdw.guard,
-					redirect: '/dashboard',
+					redirect: '/bill-creator',
 					children: [
-						{
-							path: 'dashboard',
-							name: 'dashboard',
-							component: Dashboard,
-							meta: {
-								title: 'Dashboard'
-							}
-						},
+						// {
+						// 	path: 'dashboard',
+						// 	name: 'dashboard',
+						// 	component: Dashboard,
+						// 	meta: {
+						// 		title: 'Dashboard'
+						// 	}
+						// },
 						{
 							path: 'profile',
 							name: 'profile',
@@ -110,6 +111,14 @@ const router = new Router({
 							}
 						}
 					]
+				},
+				{
+					path: '*',
+					name: '404',
+					component: PageNotFound,
+					meta: {
+						title: 'Page not found'
+					}
 				}
 			]
 		}
@@ -157,7 +166,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from) => {
 	// Vue.nextTick( () => {
-	document.title = `${to.meta.title || ' '} | POS Branch`;
+	document.title = `${to.meta.title || ' '} | ${process.env.VUE_APP_TITLE}`;
 	// });
 });
 

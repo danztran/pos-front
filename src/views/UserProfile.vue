@@ -48,7 +48,7 @@
 						@click="resetForm">
 						Reset
 					</md-button>
-					<md-button type="submit" class="md-accent" :disabled="loading">
+					<md-button type="submit" class="md-primary" :disabled="loading">
 						Edit
 					</md-button>
 				</md-card-actions>
@@ -153,7 +153,7 @@ export default {
 	methods: {
 		resetForm() {
 			initForm();
-			this.fillForm(this.$cookies.get('user'));
+			this.fillForm(this.$cookies.get('_us_r'));
 		},
 		fillForm(item) {
 			for (const key in this.form) {
@@ -180,7 +180,6 @@ export default {
 				.then((res) => {
 					const { message, user } = res.data;
 					if (user) {
-						this.$cookies.set('user', user);
 						this.$root.$emit('selfEdit', user);
 						this.resetForm();
 					}

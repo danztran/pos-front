@@ -3,7 +3,7 @@ import router from '@/router';
 import cookies from '@/modules/vue-cookies-custom';
 
 // insert all your axios logic here
-axios.defaults.baseURL = 'http://localhost:8080/';
+axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(
@@ -11,9 +11,9 @@ axios.interceptors.response.use(
 	(error) => {
 		if (error.response) {
 			if (error.response.status === 401) {
-				if	(cookies.get('user')) {
+				if	(cookies.get('_us_r')) {
 					cookies.set('_fm', 'Your session has expired.');
-					cookies.remove('user');
+					cookies.remove('_us_r');
 				}
 				router.push({ name: 'login' });
 			}

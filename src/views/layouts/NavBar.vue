@@ -55,10 +55,11 @@ export default {
 		};
 	},
 	created() {
-		this.user = this.$cookies.get('user');
+		this.user = JSON.parse(atob(this.$cookies.get('_us_r')));
 	},
 	mounted() {
 		this.$root.$on('selfEdit', (user) => {
+			this.$cookies.set('_us_r', btoa(JSON.stringify(user)));
 			this.user = user;
 		});
 	}

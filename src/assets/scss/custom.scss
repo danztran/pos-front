@@ -62,6 +62,11 @@
 .md-field.md-has-value label {
 	font-size: 13px;
 }
+.md-field {
+	span.md-error {
+    	margin-left: 37px;
+	}
+}
 
 .md-text-primary {
 	color: $primary;
