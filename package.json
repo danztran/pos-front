@@ -28,7 +28,8 @@
 		"vue-template-compiler": "^2.5.21"
 	},
 	"vue": {
-		"outputDir": "../pos-back/public"
+		"outputDir": "../pos-back/public",
+		"filenameHashing": false
 	},
 	"eslintConfig": {
 		"root": true,

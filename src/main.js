@@ -18,6 +18,7 @@ import './assets/scss/custom.scss';
 Vue.config.productionTip = false;
 
 // custome prototype
+Vue.prototype.$env = process.env;
 Vue.prototype.$api = api;
 Vue.prototype.$axios = axios;
 Vue.prototype.$cookies = cookies;

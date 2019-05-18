@@ -1,7 +1,7 @@
 <template>
 	<div class="form-bill">
 		<h2>
-			BILL - {{ process.env.VUE_APP_TITLE }} {{ bill.branchId }}
+			BILL - {{ $env.VUE_APP_TITLE }} {{ bill.branchId }}
 		</h2>
 		<div class="info info-bill">
 			<b>BILL</b>

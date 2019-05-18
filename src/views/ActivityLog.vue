@@ -1,8 +1,8 @@
 <template>
-	<div class="md-layout md-gutter md-alignment-top-center">
+	<div id="page-activitylog" class="md-layout md-gutter md-alignment-top-center">
 		<div class="md-layout-item md-large-size-55 md-medium-size-70 md-small-size-100">
 			<md-card>
-				<md-progress-bar v-visible.hid="loading" md-mode="query" />
+				<md-progress-bar v-visible="loading" md-mode="query" />
 				<md-switch v-model="autoUpdate" class="md-primary sw-title">
 					Auto update
 				</md-switch>
@@ -45,40 +45,43 @@
 	</div>
 </template>
 <style lang="scss" scoped>
-.rowfly-leave-active {
-	position: absolute;
-	opacity: 0;
-}
-.rowfly-enter, .rowfly-leave-to {
-	opacity: 0;
-	transform: translateY(-10px);
-}
-.sw-title {
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-table {
-	width: 100%;
-	tbody {
-		tr {
-			transition: all .4s;
-			padding: 3px;
-			td {
-				margin: 8px;
+#page-activitylog {
+	overflow: hidden;
+	.rowfly-leave-active {
+		position: absolute;
+		opacity: 0;
+	}
+	.rowfly-enter, .rowfly-leave-to {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	.sw-title {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	table {
+		width: 100%;
+		tbody {
+			tr {
+				transition: all .4s;
 				padding: 3px;
-				background-color: rgba(0,0,0,.07);
-				&:nth-of-type(1) {
-					width: 1%;
+				td {
+					margin: 8px;
+					padding: 3px;
+					background-color: rgba(0,0,0,.07);
+					&:nth-of-type(1) {
+						width: 1%;
+					}
+					p.text {
+						margin: 5px;
+						font-size: 15px;
+						font-weight: bold;
+					}
 				}
-				p.text {
-					margin: 5px;
-					font-size: 15px;
-					font-weight: bold;
+				&:hover {
+					background-color: rgba(0,0,0,.15);
 				}
-			}
-			&:hover {
-				background-color: rgba(0,0,0,.15);
 			}
 		}
 	}
