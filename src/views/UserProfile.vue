@@ -153,7 +153,7 @@ export default {
 	methods: {
 		resetForm() {
 			initForm();
-			this.fillForm(JSON.parse(atob(this.$cookies.get('_us_r'))));
+			this.fillForm(this.$cookies.get('_us_r'));
 		},
 		fillForm(item) {
 			for (const key in this.form) {

@@ -13,11 +13,28 @@ const mdw = {
 
 	logout({ next, router }) {
 		if (mdw.isUser()) {
-			axios.get('/auth/logout').then((res) => {
-				cookies.remove('user');
-			});
+			axios.get('/auth/logout')
+				.then((res) => {
+					const { message } = res.data;
+					if (message) {
+						cookies.set('_fm', "You have logged out");
+					}
+				})
+				.catch((err) => {
+					const { message } = err;
+					switch (typeof message) {
+						case 'object': cookies.set('_fm', Object.values(message).join('. ')); break;
+						case 'string': cookies.set('_fm', message); break;
+					}
+				})
+				.then(() => {
+					cookies.remove('_us_r');
+					next();
+				});
 		}
-		next();
+		else {
+			return next();
+		}
 	},
 
 	isUser() {

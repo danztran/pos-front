@@ -33,15 +33,15 @@ const VueCookies = {
 	get(key) {
 		let value = decodeURIComponent(document.cookie.replace(new RegExp(`(?:(?:^|.*;)\\s*${encodeURIComponent(key).replace(/[\-\.\+\*]/g, '\\$&')}\\s*\\=\\s*([^;]*).*$)|^.*$`), '$1')) || null;
 
-		if (value && value.substring(0, 1) === '{' && value.substring(value.length - 1, value.length) === '}') {
-			try {
-				value = JSON.parse(value);
-			}
-			catch (e) {
-				return value;
-			}
-		}
-		return value;
+		// if (value && value.substring(0, 1) === '{' && value.substring(value.length - 1, value.length) === '}') {
+		// 	try {
+		// 		value = JSON.parse(atob(value));
+		// 	}
+		// 	catch (e) {
+		// 		return value;
+		// 	}
+		// }
+		return value ? JSON.parse(atob(value)) : value;
 	},
 	set(key, value, expireTimes, path, domain, secure) {
 		if (!key) {
@@ -50,10 +50,13 @@ const VueCookies = {
 		else if (/^(?:expires|max\-age|path|domain|secure)$/i.test(key)) {
 			throw new Error("cookie key name illegality ,Cannot be set to ['expires','max-age','path','domain','secure']\t", `current key name: ${key}`);
 		}
-		// support json object
-		if (value && value.constructor === Object) {
-			value = JSON.stringify(value);
+		if (value) {
+			value = btoa(JSON.stringify(value));
 		}
+		// support json object
+		// if (value && value.constructor === Object) {
+		// 	value = JSON.stringify(value);
+		// }
 		let _expires = '';
 		expireTimes = expireTimes === undefined ? defaultConfig.expires : expireTimes;
 		if (expireTimes && expireTimes != 0) {

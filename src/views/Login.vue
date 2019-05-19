@@ -37,11 +37,11 @@
 								<span class="md-error">{{ password.message }}</span>
 							</md-field>
 						</md-card-content>
-						<p v-visible="Boolean(flashMessage)" class="text-message">
+						<p v-visible="Boolean(flashMessage)" class="text-message text-message-success">
 							{{ flashMessage }}
 						</p>
-						<p v-visible="Boolean(message)" class="text-message">
-							{{ message }}
+						<p v-visible="Boolean(errMessage)" class="text-message text-message-error">
+							{{ errMessage }}
 						</p>
 						<md-card-actions>
 							<div class="actions md-layout md-alignment-center-space-between">
@@ -74,14 +74,14 @@ export default {
 			value: '',
 			message: ''
 		},
-		message: '',
+		errMessage: '',
 		flashMessage: '',
 		errorClass: 'md-invalid'
 	}),
 	methods: {
 		clearMsg() {
 			this.flashMessage = '';
-			this.message = '';
+			this.errMessage = '';
 		},
 		sendAuth() {
 			this.clearMsg();
@@ -93,13 +93,13 @@ export default {
 				.then((res) => {
 					const { user } = res.data;
 					if (user) {
-						this.$cookies.set('_us_r', btoa(JSON.stringify(user)));
+						this.$cookies.set('_us_r', user);
 					}
 					this.$router.push({ name: 'bill-creator' });
 				})
 				.catch((err) => {
 					const { message } = err;
-					this.message = '';
+					this.errMessage = '';
 					if (message) {
 						for (const key in message) {
 							if (this.hasOwnProperty(key)) {
@@ -107,7 +107,7 @@ export default {
 								this[key].status = this.errorClass;
 							}
 							else {
-								this.message += message[key];
+								this.errMessage += message[key];
 							}
 						}
 					}
@@ -151,10 +151,16 @@ export default {
 
 			.text-message {
 				text-align: left;
-				color: firebrick;
 				margin: 0;
 				min-height: 20px;
 				padding: 0 16px;
+				&.text-message-success {
+					color: #28a745;
+					font-weight: bold;
+				}
+				&.text-message-error {
+					color: firebrick;
+				}
 			}
 		}
 	}
